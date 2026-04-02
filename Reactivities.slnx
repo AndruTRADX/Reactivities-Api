@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/documentation/">
+    <File Path="documentation/README.md" />
+  </Folder>
+  <Folder Name="/src/API/">
+    <Project Path="Reactivities.API/Reactivities.API.csproj" />
+  </Folder>
+  <Folder Name="/src/Core/">
+    <Project Path="Reactivities.Application/Reactivities.Application.csproj" />
+    <Project Path="Reactivities.Domain/Reactivities.Domain.csproj" />
+  </Folder>
+  <Folder Name="/src/Infrastructure/">
+    <Project Path="Reactivities.Infrastructure/Reactivities.Infrastructure.csproj" />
+  </Folder>
+</Solution>
