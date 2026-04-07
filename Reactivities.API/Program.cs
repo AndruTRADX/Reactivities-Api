@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using Reactivities.API.ExceptionHandlers;
 using Reactivities.Application;
 using Reactivities.Infrastructure;
+using Reactivities.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,5 +47,26 @@ app.UseAuthorization();
 app.UseCors("CorsPolicy");
 
 app.MapControllers();
+
+using (var scoped = app.Services.CreateScope())
+{
+    var service = scoped.ServiceProvider;
+
+    var loggerFactory = service.GetRequiredService<ILoggerFactory>();
+
+    try
+    {
+        var context = service.GetRequiredService<ReactivitiesDbContext>();
+        await context.Database.MigrateAsync();
+
+        // var contextIdentity = service.GetRequiredService<CAIdentityDbContext>();
+        // await contextIdentity.Database.MigrateAsync();
+    }
+    catch (Exception ex)
+    {
+        var logger = loggerFactory.CreateLogger<Program>();
+        logger.LogError(ex, "Migration error");
+    }
+}
 
 app.Run();

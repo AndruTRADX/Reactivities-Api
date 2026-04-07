@@ -16,7 +16,9 @@ public static class InfrastructureServiceRegistration
         {
             options.UseSqlServer(configuration.GetConnectionString("Default"));
         });
+
         services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
+
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
