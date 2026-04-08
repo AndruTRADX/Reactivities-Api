@@ -1,6 +1,6 @@
 namespace Reactivities.Application.Models.Response.Common;
 
-public class ApiResponse<T> where T : class
+public class ApiResponse<T>
 {
     public bool Success { get; set; } = false;
     public string Message { get; set; } = string.Empty;
@@ -9,7 +9,8 @@ public class ApiResponse<T> where T : class
 
     public ApiResponse()
     {
-
+        Success = true;
+        Message = "Operation successful";
     }
 
     public ApiResponse(T data) : this()

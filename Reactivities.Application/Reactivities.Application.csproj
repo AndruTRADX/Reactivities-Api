@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <Folder Include="Behaviors\" />
-    <Folder Include="Constants\" />
     <Folder Include="Contracts\" />
     <Folder Include="Contracts\Persistence\" />
     <Folder Include="Contracts\Specifications\" />
@@ -22,6 +21,9 @@
     <Folder Include="Features\" />
     <Folder Include="Features\Activities\" />
     <Folder Include="Features\Activities\Command\" />
+    <Folder Include="Features\Activities\Command\Create\" />
+    <Folder Include="Features\Activities\Command\Delete\" />
+    <Folder Include="Features\Activities\Command\Update\" />
     <Folder Include="Features\Activities\Query\" />
     <Folder Include="Features\Activities\Query\GetById\" />
     <Folder Include="Features\Activities\Query\GetPaged\" />

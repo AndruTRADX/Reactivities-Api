@@ -26,7 +26,7 @@ builder.Services.AddApplicationServices();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", 
-        builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        builder => builder.AllowAnyMethod().AllowAnyHeader().WithOrigins(["http://localhost:5173/","https://localhost:5173/"]));
 });
 
 var app = builder.Build();

@@ -121,7 +121,6 @@ public class RepositoryBase<T>(AppDbContext dbContext) : IAsyncRepository<T> whe
 
     public void UpdateEntity(T entity)
     {
-        _dbContext.Entry(entity).State = EntityState.Modified;
         _dbContext.Set<T>().Update(entity);
     }
 

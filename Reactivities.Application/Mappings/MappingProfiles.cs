@@ -8,6 +8,7 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
+        CreateMap<Activity, Activity>();
         CreateMap<Activity, ActivityResponse>();
     }
 }
