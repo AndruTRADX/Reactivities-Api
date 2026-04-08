@@ -12,11 +12,18 @@ public class ApiResponse<T> where T : class
 
     }
 
-    public ApiResponse(T data, string message = "") : this()
+    public ApiResponse(T data) : this()
     {
         Success = true;
         Data = data;
-        Message = message ?? "Operation successful";
+        Message = "Operation successful";
+    }
+
+    public ApiResponse(T data, string message) : this()
+    {
+        Success = true;
+        Data = data;
+        Message = message;
     }
 
     public ApiResponse(string message, List<string> errors) : this()
