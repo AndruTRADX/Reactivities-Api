@@ -8,9 +8,9 @@ using Reactivities.Infrastructure.Specification;
 
 namespace Reactivities.Infrastructure.Repositories;
 
-public class RepositoryBase<T>(ReactivitiesDbContext dbContext) : IAsyncRepository<T> where T : BaseDomainModel
+public class RepositoryBase<T>(AppDbContext dbContext) : IAsyncRepository<T> where T : BaseDomainModel
 {
-    protected readonly ReactivitiesDbContext _dbContext = dbContext;
+    protected readonly AppDbContext _dbContext = dbContext;
 
     public async Task<IReadOnlyList<T>> GetAllAsync()
     {

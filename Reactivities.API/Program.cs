@@ -41,9 +41,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthentication();
-app.UseAuthorization();
-
 app.UseCors("CorsPolicy");
 
 app.MapControllers();
@@ -56,8 +53,9 @@ using (var scoped = app.Services.CreateScope())
 
     try
     {
-        var context = service.GetRequiredService<ReactivitiesDbContext>();
+        var context = service.GetRequiredService<AppDbContext>();
         await context.Database.MigrateAsync();
+        await AppDbContextSeed.SeedAsync(context, loggerFactory);
 
         // var contextIdentity = service.GetRequiredService<CAIdentityDbContext>();
         // await contextIdentity.Database.MigrateAsync();

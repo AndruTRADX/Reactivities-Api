@@ -1,9 +1,12 @@
+using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
 namespace Reactivities.Infrastructure.Persistence;
 
-public class ReactivitiesDbContext(DbContextOptions<ReactivitiesDbContext> options) : DbContext(options)
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
+    public DbSet<Activity> Activities { get; set; }
+
     public override Task<int> SaveChangesAsync(CancellationToken token = default)
     {
         return base.SaveChangesAsync(token);

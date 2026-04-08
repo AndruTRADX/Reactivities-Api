@@ -4,9 +4,9 @@ using Reactivities.Infrastructure.Persistence;
 
 namespace Reactivities.Infrastructure.Repositories;
 
-public class UnitOfWork(ReactivitiesDbContext context) : IUnitOfWork
+public class UnitOfWork(AppDbContext context) : IUnitOfWork
 {
-    private readonly ReactivitiesDbContext _context = context;
+    private readonly AppDbContext _context = context;
     private readonly Dictionary<Type, object> _repositories = [];
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
