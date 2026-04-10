@@ -1,6 +1,13 @@
 {
   "launch": {
-    "configurations": [],
+    "configurations": [
+      {
+        "name": "C#: Reactivities.API Debug",
+        "type": "dotnet",
+        "request": "launch",
+        "projectPath": "${workspaceFolder}/Reactivities.API/Reactivities.API.csproj"
+      },
+    ],
     "compounds": []
   },
 }
