@@ -4,7 +4,7 @@ using Reactivities.Application.Exceptions;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Domain;
 
-namespace Reactivities.Application.Features.Activities.Command.Delete;
+namespace Reactivities.Application.Features.Activities.Commands.Delete;
 
 public class DeleteActivityCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<DeleteActivityCommand, ApiResponse<Unit>>
 {

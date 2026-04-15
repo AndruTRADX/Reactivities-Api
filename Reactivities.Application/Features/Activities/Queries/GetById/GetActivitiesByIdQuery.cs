@@ -1,8 +1,8 @@
 using MediatR;
-using Reactivities.Application.Models.Response;
+using Reactivities.Application.Models.Response.Activities;
 using Reactivities.Application.Models.Response.Common;
 
-namespace Reactivities.Application.Features.Activities.Query.GetById;
+namespace Reactivities.Application.Features.Activities.Queries.GetById;
 
 public class GetActivitiesByIdQuery : IRequest<ApiResponse<ActivityResponse>>
 {

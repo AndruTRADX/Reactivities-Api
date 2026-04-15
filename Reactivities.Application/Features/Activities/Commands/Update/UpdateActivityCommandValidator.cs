@@ -1,11 +1,16 @@
+using System;
 using FluentValidation;
 
-namespace Reactivities.Application.Features.Activities.Command.Create;
+namespace Reactivities.Application.Features.Activities.Commands.Update;
 
-public class CreateActivityCommandValidator : AbstractValidator<CreateActivityCommand>
+public class UpdateActivityCommandValidator : AbstractValidator<UpdateActivityCommand>
 {
-    public CreateActivityCommandValidator()
+    public UpdateActivityCommandValidator()
     {
+        RuleFor(p => p.Activity.Id)
+            .NotNull().NotEmpty()
+            .WithMessage("Id is required");
+
         RuleFor(p => p.Activity.Title)
             .NotNull().NotEmpty()
             .MinimumLength(3)

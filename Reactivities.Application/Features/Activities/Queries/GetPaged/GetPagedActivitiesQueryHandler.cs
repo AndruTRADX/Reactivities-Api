@@ -1,12 +1,12 @@
 using AutoMapper;
 using MediatR;
 using Reactivities.Application.Contracts.Persistence;
-using Reactivities.Application.Models.Response;
+using Reactivities.Application.Models.Response.Activities;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Application.Specification.Activities;
 using Reactivities.Domain;
 
-namespace Reactivities.Application.Features.Activities.Query.GetPaged;
+namespace Reactivities.Application.Features.Activities.Queries.GetPaged;
 
 public class GetPagedActivitiesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<GetPagedActivitiesQuery, ApiResponse<PagedResponse<ActivityResponse>>>
 {

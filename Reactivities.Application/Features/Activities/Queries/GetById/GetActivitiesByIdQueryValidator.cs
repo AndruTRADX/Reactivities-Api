@@ -1,7 +1,7 @@
 using System;
 using FluentValidation;
 
-namespace Reactivities.Application.Features.Activities.Query.GetById;
+namespace Reactivities.Application.Features.Activities.Queries.GetById;
 
 public class GetActivitiesByIdQueryValidator : AbstractValidator<GetActivitiesByIdQuery>
 {
