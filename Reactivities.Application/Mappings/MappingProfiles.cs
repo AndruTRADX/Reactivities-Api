@@ -1,5 +1,6 @@
 using AutoMapper;
-using Reactivities.Application.Models.Response;
+using Reactivities.Application.Models.Request.Activities;
+using Reactivities.Application.Models.Response.Activities;
 using Reactivities.Domain;
 
 namespace Reactivities.Application.Mappings;
@@ -8,7 +9,8 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
-        CreateMap<Activity, Activity>();
+        CreateMap<CreateActivityRequest, Activity>();
+        CreateMap<UpdateActivityRequest, Activity>();
         CreateMap<Activity, ActivityResponse>();
     }
 }

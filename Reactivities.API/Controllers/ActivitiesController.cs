@@ -1,13 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Reactivities.Application.Features.Activities.Command.Create;
-using Reactivities.Application.Features.Activities.Command.Delete;
-using Reactivities.Application.Features.Activities.Command.Update;
-using Reactivities.Application.Features.Activities.Query.GetById;
-using Reactivities.Application.Features.Activities.Query.GetPaged;
-using Reactivities.Application.Models.Response;
+using Reactivities.Application.Features.Activities.Commands.Create;
+using Reactivities.Application.Features.Activities.Commands.Delete;
+using Reactivities.Application.Features.Activities.Commands.Update;
+using Reactivities.Application.Features.Activities.Queries.GetById;
+using Reactivities.Application.Features.Activities.Queries.GetPaged;
+using Reactivities.Application.Models.Request.Activities;
+using Reactivities.Application.Models.Response.Activities;
 using Reactivities.Application.Models.Response.Common;
-using Reactivities.Domain;
 
 namespace Reactivities.API.Controllers;
 
@@ -26,15 +26,15 @@ public class ActivitiesController : BaseApiController
     }
 
     [HttpPost]
-    public async Task<ActionResult<ApiResponse<string>>> Create(Activity entity)
+    public async Task<ActionResult<ApiResponse<string>>> Create(CreateActivityRequest activity)
     {
-        return await mediator.Send(new CreateActivityCommand { Activity = entity });
+        return await mediator.Send(new CreateActivityCommand { Activity = activity });
     }
 
     [HttpPut]
-    public async Task<ActionResult<ApiResponse<Unit>>> Update(Activity entity)
+    public async Task<ActionResult<ApiResponse<Unit>>> Update(UpdateActivityRequest activity)
     {
-        return await mediator.Send(new UpdateActivityCommand { Activity = entity });
+        return await mediator.Send(new UpdateActivityCommand { Activity = activity });
     }
 
     [HttpDelete("{id}")]

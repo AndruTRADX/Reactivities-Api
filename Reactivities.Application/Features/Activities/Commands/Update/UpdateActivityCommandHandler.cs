@@ -5,7 +5,7 @@ using Reactivities.Application.Exceptions;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Domain;
 
-namespace Reactivities.Application.Features.Activities.Command.Update;
+namespace Reactivities.Application.Features.Activities.Commands.Update;
 
 public class UpdateActivityCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<UpdateActivityCommand, ApiResponse<Unit>>
 {

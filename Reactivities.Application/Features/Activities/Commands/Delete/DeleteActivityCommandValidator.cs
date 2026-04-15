@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Reactivities.Application.Features.Activities.Command.Delete;
+namespace Reactivities.Application.Features.Activities.Commands.Delete;
 
 public class DeleteActivityCommandValidator : AbstractValidator<DeleteActivityCommand>
 {
