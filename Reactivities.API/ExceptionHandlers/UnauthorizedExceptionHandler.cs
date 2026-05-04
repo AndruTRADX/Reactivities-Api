@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using Reactivities.Application.Exceptions;
+using Reactivities.Application.Models.Response.Common;
 
 namespace Reactivities.API.ExceptionHandlers;
 
@@ -18,15 +18,9 @@ public class UnauthorizedExceptionHandler(ILogger<UnauthorizedExceptionHandler> 
 
         logger.LogWarning(unauthorizedException, "Unauthorized access attempt: {Message}", unauthorizedException.Message);
 
-        var problemDetails = new ProblemDetails
-        {
-            Status = StatusCodes.Status401Unauthorized,
-            Title = "Unauthorized",
-            Detail = unauthorizedException.Message,
-            Type = "https://datatracker.ietf.org/doc/html/rfc7235#section-3.1"
-        };
+        var problemDetails = new ApiResponse<object>("Unauthorized", unauthorizedException.Message, []);
 
-        httpContext.Response.StatusCode = problemDetails.Status.Value;
+        httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
 
         return true;
