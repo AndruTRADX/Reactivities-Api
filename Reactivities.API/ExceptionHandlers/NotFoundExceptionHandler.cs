@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using Reactivities.Application.Exceptions;
+using Reactivities.Application.Models.Response.Common;
 
 namespace Reactivities.API.ExceptionHandlers;
 
@@ -18,15 +18,9 @@ public class NotFoundExceptionHandler(ILogger<NotFoundExceptionHandler> logger) 
 
         logger.LogWarning(notFoundException, "Resource not found: {Message}", notFoundException.Message);
 
-        var problemDetails = new ProblemDetails
-        {
-            Status = StatusCodes.Status404NotFound,
-            Title = "Resource Not Found",
-            Detail = notFoundException.Message,
-            Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.4"
-        };
+        var problemDetails = new ApiResponse<object>("Resource Not Found", notFoundException.Message, []);
 
-        httpContext.Response.StatusCode = problemDetails.Status.Value;
+        httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
 
         return true;

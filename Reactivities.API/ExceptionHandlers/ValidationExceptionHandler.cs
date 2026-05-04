@@ -1,6 +1,6 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using Reactivities.Application.Models.Response.Common;
 
 namespace Reactivities.API.ExceptionHandlers;
 
@@ -25,15 +25,9 @@ public class ValidationExceptionHandler(ILogger<ValidationExceptionHandler> logg
                 g => g.Select(e => e.ErrorMessage).ToArray()
             );
 
-        var validationProblemDetails = new ValidationProblemDetails(validationErrors)
-        {
-            Status = StatusCodes.Status400BadRequest,
-            Title = "Validation Error",
-            Detail = "One or more validation errors occurred.",
-            Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1"
-        };
+        var validationProblemDetails = new ApiResponse<object>("Validation Error", "One or more validation errors occurred.", validationErrors);
 
-        httpContext.Response.StatusCode = validationProblemDetails.Status.Value;
+        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
         await httpContext.Response.WriteAsJsonAsync(validationProblemDetails, cancellationToken);
 
         return true;

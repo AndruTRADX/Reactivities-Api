@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using Reactivities.Application.Exceptions;
+using Reactivities.Application.Models.Response.Common;
 
 namespace Reactivities.API.ExceptionHandlers;
 
@@ -18,15 +18,9 @@ public class BadRequestExceptionHandler(ILogger<BadRequestExceptionHandler> logg
 
         logger.LogWarning(badRequestException, "Bad request: {Message}", badRequestException.Message);
 
-        var problemDetails = new ProblemDetails
-        {
-            Status = StatusCodes.Status400BadRequest,
-            Title = "Bad Request",
-            Detail = badRequestException.Message,
-            Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1"
-        };
+        var problemDetails = new ApiResponse<object>("Bad Request", badRequestException.Message, []);
 
-        httpContext.Response.StatusCode = problemDetails.Status.Value;
+        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
 
         return true;
