@@ -10,6 +10,7 @@
     <Project Path="Reactivities.Domain/Reactivities.Domain.csproj" />
   </Folder>
   <Folder Name="/src/Infrastructure/">
+    <Project Path="Reactivities.Identity/Reactivities.Identity.csproj" />
     <Project Path="Reactivities.Infrastructure/Reactivities.Infrastructure.csproj" />
   </Folder>
 </Solution>

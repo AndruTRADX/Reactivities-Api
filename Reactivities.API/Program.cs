@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Reactivities.API.ExceptionHandlers;
 using Reactivities.Application;
+using Reactivities.Identity;
+using Reactivities.Identity.Persistence;
 using Reactivities.Infrastructure;
 using Reactivities.Infrastructure.Persistence;
 
@@ -21,6 +23,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 // Services
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
 builder.Services.AddCors(options =>
@@ -57,8 +60,8 @@ using (var scoped = app.Services.CreateScope())
         await context.Database.MigrateAsync();
         await AppDbContextSeed.SeedAsync(context, loggerFactory);
 
-        // var contextIdentity = service.GetRequiredService<CAIdentityDbContext>();
-        // await contextIdentity.Database.MigrateAsync();
+        var contextIdentity = service.GetRequiredService<IdentityAppDbContext>();
+        await contextIdentity.Database.MigrateAsync();
     }
     catch (Exception ex)
     {
