@@ -15,11 +15,13 @@
   <ItemGroup>
     <Folder Include="Behaviors\" />
     <Folder Include="Contracts\" />
+    <Folder Include="Contracts\Identity\" />
     <Folder Include="Contracts\Persistence\" />
     <Folder Include="Contracts\Specifications\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Features\Activities\Commands\" />
     <Folder Include="Features\Activities\Queries\" />
+    <Folder Include="Features\Identity\Commands\SignOut\" />
     <Folder Include="Mappings\" />
     <Folder Include="Specification\" />
     <Folder Include="Specification\Activities\" />

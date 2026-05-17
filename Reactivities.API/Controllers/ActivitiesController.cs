@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reactivities.Application.Features.Activities.Commands.Create;
 using Reactivities.Application.Features.Activities.Commands.Delete;
@@ -11,6 +12,7 @@ using Reactivities.Application.Models.Response.Common;
 
 namespace Reactivities.API.Controllers;
 
+[Authorize]
 public class ActivitiesController : BaseApiController
 {
     [HttpGet("{id}")]
@@ -19,6 +21,7 @@ public class ActivitiesController : BaseApiController
         return await mediator.Send(new GetActivitiesByIdQuery { Id = id });
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<ApiResponse<PagedResponse<ActivityResponse>>>> GetPaged([FromQuery] GetPagedActivitiesQuery query)
     {

@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Reactivities.API.ExceptionHandlers;
 using Reactivities.Application;
 using Reactivities.Identity;
+using Reactivities.Identity.Models;
 using Reactivities.Identity.Persistence;
 using Reactivities.Infrastructure;
 using Reactivities.Infrastructure.Persistence;
@@ -26,6 +28,14 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
+// Identity
+builder.Services.AddIdentityApiEndpoints<ApplicationUser>(opt =>
+{
+    opt.User.RequireUniqueEmail = true;
+})
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<IdentityAppDbContext>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", 
@@ -44,6 +54,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Identity Api
+app.MapGroup("api").MapIdentityApi<ApplicationUser>();
+
 app.UseCors("CorsPolicy");
 
 app.MapControllers();
@@ -51,7 +67,6 @@ app.MapControllers();
 using (var scoped = app.Services.CreateScope())
 {
     var service = scoped.ServiceProvider;
-
     var loggerFactory = service.GetRequiredService<ILoggerFactory>();
 
     try
@@ -60,8 +75,10 @@ using (var scoped = app.Services.CreateScope())
         await context.Database.MigrateAsync();
         await AppDbContextSeed.SeedAsync(context, loggerFactory);
 
-        var contextIdentity = service.GetRequiredService<IdentityAppDbContext>();
-        await contextIdentity.Database.MigrateAsync();
+        var identityContext = service.GetRequiredService<IdentityAppDbContext>();
+        await identityContext.Database.MigrateAsync();
+        var userManager = service.GetRequiredService<UserManager<ApplicationUser>>();
+        await IdentityAppDbContextSeed.SeedAsync(userManager, loggerFactory);
     }
     catch (Exception ex)
     {

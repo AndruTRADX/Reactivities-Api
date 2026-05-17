@@ -5,10 +5,8 @@ using Reactivities.Identity.Models;
 
 namespace Reactivities.Identity.Persistence;
 
-public class IdentityAppDbContext(DbContextOptions<IdentityAppDbContext> options) : IdentityDbContext(options)
+public class IdentityAppDbContext(DbContextOptions<IdentityAppDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
-    public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
