@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Reactivities.API.ExceptionHandlers;
+using Reactivities.API;
 using Reactivities.Application;
 using Reactivities.Identity;
 using Reactivities.Identity.Models;
@@ -16,14 +16,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddProblemDetails();
-builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();
-builder.Services.AddExceptionHandler<BadRequestExceptionHandler>();
-builder.Services.AddExceptionHandler<UnauthorizedExceptionHandler>();
-builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
-builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-
 // Services
+builder.Services.AddApiServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddApplicationServices();
@@ -38,13 +32,15 @@ builder.Services.AddIdentityApiEndpoints<ApplicationUser>(opt =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("CorsPolicy", 
-        builder => builder.AllowAnyMethod().AllowAnyHeader().WithOrigins(["http://localhost:5173","https://localhost:5173"]));
+    options.AddPolicy("CorsPolicy",
+        builder => builder.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins(["http://localhost:5173", "https://localhost:5173"]));
 });
 
 var app = builder.Build();
 
 app.UseExceptionHandler();
+
+app.UseCors("CorsPolicy");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -59,8 +55,6 @@ app.UseAuthorization();
 
 // Identity Api
 app.MapGroup("api").MapIdentityApi<ApplicationUser>();
-
-app.UseCors("CorsPolicy");
 
 app.MapControllers();
 
