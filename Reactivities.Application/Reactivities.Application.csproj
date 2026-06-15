@@ -22,6 +22,8 @@
     <Folder Include="Features\Activities\Commands\" />
     <Folder Include="Features\Activities\Queries\" />
     <Folder Include="Features\Identity\Commands\SignOut\" />
+    <Folder Include="Features\Identity\Queries\" />
+    <Folder Include="Features\Identity\Queries\GetCurrentUser\" />
     <Folder Include="Mappings\" />
     <Folder Include="Specification\" />
     <Folder Include="Specification\Activities\" />

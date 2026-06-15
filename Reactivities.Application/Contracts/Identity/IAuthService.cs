@@ -7,4 +7,5 @@ public interface IAuthService
 {
     Task<RegisterUserResponse> RegisterUserAsync(RegisterUserRequest request);
     Task SignOutAsync();
+    Task<UserResponse> GetCurrentUserAsync();
 }

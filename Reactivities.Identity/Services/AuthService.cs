@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Reactivities.Application.Contracts.Identity;
 using Reactivities.Application.Exceptions;
@@ -7,7 +8,7 @@ using Reactivities.Identity.Models;
 
 namespace Reactivities.Identity.Services;
 
-public class AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : IAuthService
+public class AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor httpContextAccessor) : IAuthService
 {
     public async Task<RegisterUserResponse> RegisterUserAsync(RegisterUserRequest request)
     {
@@ -42,5 +43,22 @@ public class AuthService(UserManager<ApplicationUser> userManager, SignInManager
     public async Task SignOutAsync()
     {
         await signInManager.SignOutAsync();
+    }
+
+    public async Task<UserResponse> GetCurrentUserAsync()
+    {
+        var claimsPrincipal = httpContextAccessor.HttpContext?.User
+            ?? throw new UnauthorizedException("No active session found.");
+
+        var user = await userManager.GetUserAsync(claimsPrincipal)
+            ?? throw new UnauthorizedException("User not found.");
+
+        return new UserResponse
+        {
+            Id = user.Id,
+            Email = user.Email ?? "",
+            DisplayName = user.DisplayName ?? "",
+            ImageUrl = user.ImageUrl,
+        };
     }
 }

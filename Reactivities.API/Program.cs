@@ -33,7 +33,11 @@ builder.Services.AddIdentityApiEndpoints<ApplicationUser>(opt =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
-        builder => builder.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins(["http://localhost:5173", "https://localhost:5173"]));
+        builder => builder
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+            .WithOrigins(["http://localhost:5173", "https://localhost:5173"]));
 });
 
 var app = builder.Build();

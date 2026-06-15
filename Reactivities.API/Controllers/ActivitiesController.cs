@@ -21,7 +21,6 @@ public class ActivitiesController : BaseApiController
         return await mediator.Send(new GetActivitiesByIdQuery { Id = id });
     }
 
-    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<ApiResponse<PagedResponse<ActivityResponse>>>> GetPaged([FromQuery] GetPagedActivitiesQuery query)
     {

@@ -16,6 +16,8 @@ public static class IdentityServiceRegistration
                 b => b.MigrationsAssembly(typeof(IdentityAppDbContext).Assembly.FullName));
         });
 
+        services.AddHttpContextAccessor();
+
         // Services
         services.AddTransient<IAuthService, AuthService>();
 
