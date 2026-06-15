@@ -1,12 +1,20 @@
 namespace Reactivities.Application.Models.Response.Common;
 
-public class ApiResponse<T>
+public interface IApiResponse
+{
+    bool Success { get; }
+    object? Data { get; }
+}
+
+public class ApiResponse<T> : IApiResponse
 {
     public bool Success { get; set; } = false;
     public string Title { get; set; } = string.Empty;
     public string Message { get; set; } = string.Empty;
     public T? Data { get; set; }
     public Dictionary<string, string[]>? Errors { get; set; }
+
+    object? IApiResponse.Data => Data;
 
     public ApiResponse()
     {
@@ -17,17 +25,12 @@ public class ApiResponse<T>
 
     public ApiResponse(T data) : this()
     {
-        Success = true;
         Data = data;
-        Title = "Success";
-        Message = "Operation successful";
     }
 
     public ApiResponse(T data, string message) : this()
     {
-        Success = true;
         Data = data;
-        Title = "Success";
         Message = message;
     }
 

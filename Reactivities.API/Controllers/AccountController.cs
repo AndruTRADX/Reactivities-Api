@@ -12,7 +12,7 @@ namespace Reactivities.API.Controllers;
 public class AccountController : BaseApiController
 {
     [HttpGet("user-info")]
-    public async Task<ActionResult<ApiResponse<UserResponse>>> GetUser()
+    public async Task<ActionResult<ApiResponse<UserResponse?>>> GetUser()
     {
         return await mediator.Send(new GetCurrentUserQuery());
     }

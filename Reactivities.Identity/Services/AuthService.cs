@@ -45,13 +45,15 @@ public class AuthService(UserManager<ApplicationUser> userManager, SignInManager
         await signInManager.SignOutAsync();
     }
 
-    public async Task<UserResponse> GetCurrentUserAsync()
+    public async Task<UserResponse?> GetCurrentUserAsync()
     {
-        var claimsPrincipal = httpContextAccessor.HttpContext?.User
-            ?? throw new UnauthorizedException("No active session found.");
+        var claimsPrincipal = httpContextAccessor.HttpContext?.User;
 
-        var user = await userManager.GetUserAsync(claimsPrincipal)
-            ?? throw new UnauthorizedException("User not found.");
+        if (claimsPrincipal == null) return null;
+
+        var user = await userManager.GetUserAsync(claimsPrincipal);
+
+        if (user == null) return null;
 
         return new UserResponse
         {
