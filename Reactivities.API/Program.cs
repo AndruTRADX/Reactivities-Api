@@ -2,9 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Reactivities.API;
 using Reactivities.Application;
-using Reactivities.Identity;
-using Reactivities.Identity.Models;
-using Reactivities.Identity.Persistence;
+using Reactivities.Domain.Identity;
 using Reactivities.Infrastructure;
 using Reactivities.Infrastructure.Persistence;
 
@@ -19,7 +17,6 @@ builder.Services.AddSwaggerGen();
 // Services
 builder.Services.AddApiServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
-builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
 // Identity
@@ -28,7 +25,7 @@ builder.Services.AddIdentityApiEndpoints<ApplicationUser>(opt =>
     opt.User.RequireUniqueEmail = true;
 })
 .AddRoles<IdentityRole>()
-.AddEntityFrameworkStores<IdentityAppDbContext>();
+.AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddCors(options =>
 {
@@ -70,13 +67,9 @@ using (var scoped = app.Services.CreateScope())
     try
     {
         var context = service.GetRequiredService<AppDbContext>();
-        await context.Database.MigrateAsync();
-        await AppDbContextSeed.SeedAsync(context, loggerFactory);
-
-        var identityContext = service.GetRequiredService<IdentityAppDbContext>();
-        await identityContext.Database.MigrateAsync();
         var userManager = service.GetRequiredService<UserManager<ApplicationUser>>();
-        await IdentityAppDbContextSeed.SeedAsync(userManager, loggerFactory);
+        await context.Database.MigrateAsync();
+        await AppDbContextSeed.SeedAsync(context, loggerFactory, userManager);
     }
     catch (Exception ex)
     {

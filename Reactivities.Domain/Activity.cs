@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Reactivities.Domain.Common;
 
@@ -7,6 +8,7 @@ namespace Reactivities.Domain;
 public class Activity : BaseDomainModel
 {
     [Column("id")]
+    [Key]
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
     [Column("title")]
@@ -21,7 +23,6 @@ public class Activity : BaseDomainModel
     [Column("category")]
     public string Category { get; set; } = string.Empty;
 
-    // Location props
     [Column("city")]
     public string City { get; set; } = string.Empty;
 
@@ -33,4 +34,6 @@ public class Activity : BaseDomainModel
 
     [Column("longitude")]
     public double Longitude { get; set; }
+
+    public List<ActivityAttendee> Attendees { get; set; } = [];
 }

@@ -1,5 +1,3 @@
-using System;
-
 namespace Reactivities.Domain.Common;
 
 public abstract class ValueObject

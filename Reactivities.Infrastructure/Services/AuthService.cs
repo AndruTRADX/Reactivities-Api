@@ -4,9 +4,9 @@ using Reactivities.Application.Contracts.Identity;
 using Reactivities.Application.Exceptions;
 using Reactivities.Application.Models.Request.Identity;
 using Reactivities.Application.Models.Response.Identity;
-using Reactivities.Identity.Models;
+using Reactivities.Domain.Identity;
 
-namespace Reactivities.Identity.Services;
+namespace Reactivities.Infrastructure.Services;
 
 public class AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor httpContextAccessor) : IAuthService
 {
