@@ -14,6 +14,7 @@ public class BaseSpecification<T> : ISpecification<T>
 
     public Expression<Func<T, bool>>? Criteria { get; }
     public List<Expression<Func<T, object>>> Includes { get; } = [];
+    public List<string> IncludeStrings { get; } = [];
     public Expression<Func<T, object>>? OrderBy { get; private set; }
     public Expression<Func<T, object>>? OrderByDescending { get; private set; }
 
@@ -24,6 +25,11 @@ public class BaseSpecification<T> : ISpecification<T>
     protected void AddInclude(Expression<Func<T, object>> includeExpression)
     {
         Includes.Add(includeExpression);
+    }
+
+    protected void AddIncludeString(string includeString)
+    {
+        IncludeStrings.Add(includeString);
     }
 
     protected void AddOrderBy(Expression<Func<T, object>> orderByExpression)
@@ -43,4 +49,3 @@ public class BaseSpecification<T> : ISpecification<T>
         IsPagingEnable = true;
     }
 }
-

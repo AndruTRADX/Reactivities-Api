@@ -11,7 +11,7 @@ public interface IAsyncRepository<T> where T : BaseDomainModel
     Task<IReadOnlyList<T>> GetAsync(
         Expression<Func<T, bool>>? predicate = null, 
         Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-        string? includeString = null,
+        List<string>? includeStrings = null,
         bool disableTracking = true
     );
     Task<IReadOnlyList<T>> GetAsync(
@@ -25,7 +25,7 @@ public interface IAsyncRepository<T> where T : BaseDomainModel
     Task<T?> GetFirstAsync(
         Expression<Func<T, bool>>? predicate = null, 
         Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-        string? includeString = null,
+        List<string>? includeStrings = null,
         bool disableTracking = true
     );
     Task<T?> GetFirstAsync(

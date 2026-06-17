@@ -23,6 +23,7 @@ public static class InfrastructureServiceRegistration
         services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddTransient<IAuthService, AuthService>();
+        services.AddTransient<IUserAccessor, UserAccessor>();
 
         return services;
     }

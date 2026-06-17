@@ -12,8 +12,10 @@ public class GetActivitiesByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mappe
 {
     public async Task<ApiResponse<ActivityResponse>> Handle(GetActivitiesByIdQuery request, CancellationToken cancellationToken)
     {
-        var response = await unitOfWork.Repository<Activity>().GetFirstAsync(x => x.Id == request.Id)
-            ?? throw new NotFoundException(nameof(Activity), request.Id);
+        var response = await unitOfWork
+            .Repository<Activity>()
+            .GetFirstAsync(predicate: x => x.Id == request.Id, includeStrings: ["Attendees.User",]) 
+        ?? throw new NotFoundException(nameof(Activity), request.Id);
 
         return new ApiResponse<ActivityResponse>(mapper.Map<ActivityResponse>(response));
     }

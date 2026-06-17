@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Reactivities.Application.Contracts.Identity;
 using Reactivities.Application.Exceptions;
@@ -8,7 +7,7 @@ using Reactivities.Domain.Identity;
 
 namespace Reactivities.Infrastructure.Services;
 
-public class AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor httpContextAccessor) : IAuthService
+public class AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : IAuthService
 {
     public async Task<RegisterUserResponse> RegisterUserAsync(RegisterUserRequest request)
     {
@@ -32,8 +31,6 @@ public class AuthService(UserManager<ApplicationUser> userManager, SignInManager
             throw new BadRequestException(string.Join(", ", createResult.Errors.Select(e => e.Description)));
         }
 
-        
-
         return new RegisterUserResponse
         {
             UserId = new Guid(user.Id)
@@ -43,24 +40,5 @@ public class AuthService(UserManager<ApplicationUser> userManager, SignInManager
     public async Task SignOutAsync()
     {
         await signInManager.SignOutAsync();
-    }
-
-    public async Task<UserResponse?> GetCurrentUserAsync()
-    {
-        var claimsPrincipal = httpContextAccessor.HttpContext?.User;
-
-        if (claimsPrincipal == null) return null;
-
-        var user = await userManager.GetUserAsync(claimsPrincipal);
-
-        if (user == null) return null;
-
-        return new UserResponse
-        {
-            Id = user.Id,
-            Email = user.Email ?? "",
-            DisplayName = user.DisplayName ?? "",
-            ImageUrl = user.ImageUrl,
-        };
     }
 }

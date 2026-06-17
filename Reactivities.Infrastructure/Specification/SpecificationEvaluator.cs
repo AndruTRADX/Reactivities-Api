@@ -30,6 +30,8 @@ public class SpecificationEvaluator<T> where T : BaseDomainModel
 
         inputQuery = specification.Includes.Aggregate(inputQuery, (current, include) => current.Include(include));
 
+        inputQuery = specification.IncludeStrings.Aggregate(inputQuery, (current, include) => current.Include(include));
+
         return inputQuery;
     }
 }

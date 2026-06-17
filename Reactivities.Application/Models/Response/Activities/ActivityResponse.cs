@@ -1,4 +1,5 @@
 using System;
+using Reactivities.Application.Models.Response.Attendees;
 
 namespace Reactivities.Application.Models.Response.Activities;
 
@@ -13,4 +14,5 @@ public class ActivityResponse
     public string Venue { get; set; } = string.Empty;
     public double Latitude { get; set; }
     public double Longitude { get; set; }
+    public List<AttendeesResponse> Attendees { get; set; } = [];
 }

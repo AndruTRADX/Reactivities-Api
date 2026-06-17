@@ -25,6 +25,7 @@
     <Folder Include="Features\Identity\Queries\" />
     <Folder Include="Features\Identity\Queries\GetCurrentUser\" />
     <Folder Include="Mappings\" />
+    <Folder Include="Models\Response\Attendees\" />
     <Folder Include="Specification\" />
     <Folder Include="Specification\Activities\" />
   </ItemGroup>
