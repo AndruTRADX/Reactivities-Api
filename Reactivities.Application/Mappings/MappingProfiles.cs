@@ -16,10 +16,8 @@ public class MappingProfiles : Profile
         CreateMap<UpdateActivityRequest, Activity>();
 
         CreateMap<Activity, ActivityResponse>();
-
         CreateMap<ActivityAttendee, AttendeesResponse>()
             .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User));
-
         CreateMap<ApplicationUser, UserResponse>();
     }
 }

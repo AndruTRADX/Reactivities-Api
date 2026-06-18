@@ -13,12 +13,13 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.5" />
+    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.18.1" />
+    <PackageReference Include="Quartz.Serialization.SystemTextJson" Version="3.18.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
-    <Folder Include="Services\" />
-    <Folder Include="Specification\" />
+    <EmbeddedResource Include="Scheduling\Scripts\QuartzSqlServerSchema.Create.sql" />
+    <EmbeddedResource Include="Scheduling\Scripts\QuartzSqlServerSchema.Drop.sql" />
   </ItemGroup>
 
   <PropertyGroup>

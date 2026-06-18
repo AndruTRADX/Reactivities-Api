@@ -14,7 +14,7 @@ public class NoContentFilter : IActionFilter
 
         if (objectResult.Value is not IApiResponse response) return;
 
-        if (response.Success && response.Data == null)
+        if (response.Success && response.Data is null)
         {
             context.Result = new StatusCodeResult(StatusCodes.Status204NoContent);
         }

@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Reactivities.Domain.Common;
+using Reactivities.Domain.Enums;
 
 namespace Reactivities.Domain;
 
@@ -35,5 +36,9 @@ public class Activity : BaseDomainModel
     [Column("longitude")]
     public double Longitude { get; set; }
 
+    [Column("current_status", TypeName = "varchar(20)")]
+    public ActivityEventType CurrentStatus { get; set; } = ActivityEventType.Created;
+
     public List<ActivityAttendee> Attendees { get; set; } = [];
+    public List<ActivityEvent> Events { get; set; } = [];
 }

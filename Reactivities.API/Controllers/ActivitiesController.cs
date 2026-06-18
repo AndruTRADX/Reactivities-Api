@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Reactivities.Application.Features.Activities.Action.CancelActivity;
 using Reactivities.Application.Features.Activities.Commands.Create;
-using Reactivities.Application.Features.Activities.Commands.Delete;
 using Reactivities.Application.Features.Activities.Commands.Update;
 using Reactivities.Application.Features.Activities.Queries.GetById;
 using Reactivities.Application.Features.Activities.Queries.GetPaged;
@@ -39,9 +39,9 @@ public class ActivitiesController : BaseApiController
         return await mediator.Send(new UpdateActivityCommand { Activity = activity });
     }
 
-    [HttpDelete("{id}")]
-    public async Task<ActionResult<ApiResponse<Unit>>> Delete(string id)
+    [HttpPost("cancel-activity")]
+    public async Task<ActionResult<ApiResponse<Unit>>> CancelActivity(CancelActivityRequest request)
     {
-        return await mediator.Send(new DeleteActivityCommand { Id = id });
+        return await mediator.Send(new CancelActivityAction { Request = request });
     }
 }

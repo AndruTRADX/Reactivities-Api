@@ -1,13 +1,14 @@
 using AutoMapper;
 using MediatR;
 using Reactivities.Application.Contracts.Persistence;
+using Reactivities.Application.Contracts.Scheduling;
 using Reactivities.Application.Exceptions;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Domain;
 
 namespace Reactivities.Application.Features.Activities.Commands.Update;
 
-public class UpdateActivityCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<UpdateActivityCommand, ApiResponse<Unit>>
+public class UpdateActivityCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IActivitySchedulerService activityScheduler) : IRequestHandler<UpdateActivityCommand, ApiResponse<Unit>>
 {
     public async Task<ApiResponse<Unit>> Handle(UpdateActivityCommand request, CancellationToken cancellationToken)
     {
@@ -18,6 +19,8 @@ public class UpdateActivityCommandHandler(IUnitOfWork unitOfWork, IMapper mapper
 
         unitOfWork.Repository<Activity>().UpdateEntity(data);
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await activityScheduler.ScheduleActivityCompletionAsync(data.Id, data.Date, cancellationToken);
 
         return new ApiResponse<Unit>();
     }

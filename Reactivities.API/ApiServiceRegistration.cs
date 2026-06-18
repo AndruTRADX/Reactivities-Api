@@ -18,6 +18,7 @@ public static class ApiServiceRegistration
     services.AddExceptionHandler<NotFoundExceptionHandler>();
     services.AddExceptionHandler<BadRequestExceptionHandler>();
     services.AddExceptionHandler<UnauthorizedExceptionHandler>();
+    services.AddExceptionHandler<ForbiddenExceptionHandler>();
     services.AddExceptionHandler<ValidationExceptionHandler>();
     services.AddExceptionHandler<GlobalExceptionHandler>();
 

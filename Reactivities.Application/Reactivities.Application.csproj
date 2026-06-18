@@ -12,24 +12,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Behaviors\" />
-    <Folder Include="Contracts\" />
-    <Folder Include="Contracts\Identity\" />
-    <Folder Include="Contracts\Persistence\" />
-    <Folder Include="Contracts\Specifications\" />
-    <Folder Include="Exceptions\" />
-    <Folder Include="Features\Activities\Commands\" />
-    <Folder Include="Features\Activities\Queries\" />
-    <Folder Include="Features\Identity\Commands\SignOut\" />
-    <Folder Include="Features\Identity\Queries\" />
-    <Folder Include="Features\Identity\Queries\GetCurrentUser\" />
-    <Folder Include="Mappings\" />
-    <Folder Include="Models\Response\Attendees\" />
-    <Folder Include="Specification\" />
-    <Folder Include="Specification\Activities\" />
-  </ItemGroup>
-
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

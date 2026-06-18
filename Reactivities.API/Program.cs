@@ -5,6 +5,7 @@ using Reactivities.Application;
 using Reactivities.Domain.Identity;
 using Reactivities.Infrastructure;
 using Reactivities.Infrastructure.Persistence;
+using Reactivities.Infrastructure.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,6 +71,12 @@ using (var scoped = app.Services.CreateScope())
         var userManager = service.GetRequiredService<UserManager<ApplicationUser>>();
         await context.Database.MigrateAsync();
         await AppDbContextSeed.SeedAsync(context, loggerFactory, userManager);
+
+        var sql = EmbeddedSqlScriptLoader.Load("QuartzSqlServerSchema.Create.sql");
+        var batches = sql.Split(["\r\nGO\r\n", "\nGO\n", "\r\nGO", "\nGO"], StringSplitOptions.RemoveEmptyEntries);
+
+    foreach (var batch in batches.Where(b => !string.IsNullOrWhiteSpace(b)))
+        await context.Database.ExecuteSqlRawAsync(batch.Trim());
     }
     catch (Exception ex)
     {
