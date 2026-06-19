@@ -5,7 +5,6 @@ using Reactivities.Application.Contracts.Persistence;
 using Reactivities.Application.Contracts.Scheduling;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Domain;
-using Reactivities.Domain.Enums;
 
 namespace Reactivities.Application.Features.Activities.Commands.Create;
 
@@ -16,23 +15,8 @@ public class CreateActivityCommandHandler(IUnitOfWork unitOfWork, IMapper mapper
         var userId = userAccessor.GetUserId();
         var data = mapper.Map<Activity>(request.Activity);
 
-        var attendee = new ActivityAttendee
-        {
-            ActivityId = data.Id,
-            UserId = userId,
-            IsHost = true,
-        };
+        data.Initialize(userId);
 
-        var activityEvent = new ActivityEvent
-        {
-            ActivityId = data.Id,
-            EventType = ActivityEventType.Created,
-            TriggeredByUserId = userId,
-            OccurredAt = DateTime.UtcNow,
-        };
-
-        data.Attendees.Add(attendee);
-        data.Events.Add(activityEvent);
         unitOfWork.Repository<Activity>().AddEntity(data);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 

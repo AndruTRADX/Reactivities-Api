@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Reactivities.Domain.Common;
 using Reactivities.Domain.Enums;
+using Reactivities.Domain.Events;
 
 namespace Reactivities.Domain;
 
@@ -41,4 +42,71 @@ public class Activity : BaseDomainModel
 
     public List<ActivityAttendee> Attendees { get; set; } = [];
     public List<ActivityEvent> Events { get; set; } = [];
+
+    public void Cancel(string userId, string reason)
+    {
+        EnsureUserIsHost(userId);
+
+        if (CurrentStatus == ActivityEventType.Completed)
+            throw new DomainException("Cannot cancel an activity that has been completed");
+
+        if (CurrentStatus == ActivityEventType.Cancelled)
+            throw new DomainException("Cannot cancel an activity that has been cancelled already");
+
+        CurrentStatus = ActivityEventType.Cancelled;
+        RaiseEvent(ActivityEventType.Cancelled, userId, reason);
+    }
+
+    public void Complete()
+    {
+        var canBeCompleted = CurrentStatus is ActivityEventType.Created or ActivityEventType.Reactivated;
+        if (!canBeCompleted) return;
+
+        CurrentStatus = ActivityEventType.Completed;
+        RaiseEvent(ActivityEventType.Completed, null, "The activity was successfully carried out.");
+    }
+
+    public void Initialize(string hostUserId)
+{
+    Attendees.Add(new ActivityAttendee
+    {
+        ActivityId = Id,
+        UserId = hostUserId,
+        IsHost = true,
+    });
+
+    RaiseEvent(ActivityEventType.Created, hostUserId, string.Empty);
+}
+
+    public void Update(string userId)
+    {
+        EnsureUserIsHost(userId);
+
+        if (CurrentStatus == ActivityEventType.Completed)
+            throw new DomainException("Cannot cancel an activity that has been completed");
+
+        if (CurrentStatus == ActivityEventType.Cancelled)
+            throw new DomainException("Cannot cancel an activity that has been cancelled already");
+    }
+
+    private void EnsureUserIsHost(string userId)
+    {
+        var host = Attendees.FirstOrDefault(a => a.IsHost);
+        if (host is null || host.UserId != userId)
+            throw new DomainException("Only the host can perform this action");
+    }
+
+    private void RaiseEvent(ActivityEventType type, string? triggeredByUserId, string reason)
+    {
+        Events.Add(new ActivityEvent
+        {
+            ActivityId = Id,
+            EventType = type,
+            TriggeredByUserId = triggeredByUserId,
+            Reason = reason,
+            OccurredAt = DateTime.UtcNow,
+        });
+
+        AddDomainEvent(new ActivityStatusChangedDomainEvent(Id, type, Date));
+    }
 }
