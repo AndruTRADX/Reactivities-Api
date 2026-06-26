@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "PowerShell(Remove-Item *)",
-      "PowerShell(dotnet build *)"
-    ]
-  }
-}
