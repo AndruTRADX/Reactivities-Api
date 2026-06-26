@@ -14,8 +14,8 @@ public class CancelActivityActionHandler(IUserAccessor userAccessor, IUnitOfWork
     {
         var data = await unitOfWork
             .Repository<Activity>()
-            .GetFirstAsync(predicate: x => x.Id == request.Request.Id, includeStrings: ["Attendees.User"], enabledTracking: true)
-        ?? throw new NotFoundException(nameof(Activity), request.Request.Id);
+            .GetFirstAsync(predicate: x => x.Id == request.Id, includeStrings: ["Attendees.User"], enabledTracking: true)
+        ?? throw new NotFoundException(nameof(Activity), request.Id);
 
         var userId = userAccessor.GetUserId();
         data.Cancel(userId, request.Request.Reason);

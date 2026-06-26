@@ -6,7 +6,7 @@ public class DeleteActivityAttendeeCommandValidator : AbstractValidator<DeleteAc
 {
     public DeleteActivityAttendeeCommandValidator()
     {
-        RuleFor(x => x.Request.ActivityId)
+        RuleFor(x => x.ActivityId)
             .NotNull()
             .NotEmpty()
             .WithMessage("ActivityId is Required.");

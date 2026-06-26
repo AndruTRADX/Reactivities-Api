@@ -7,7 +7,7 @@ public class CancelActivityActionValidator: AbstractValidator<CancelActivityActi
 {
     public CancelActivityActionValidator()
     {
-        RuleFor(p => p.Request.Id)
+        RuleFor(p => p.Id)
             .NotNull().NotEmpty()
             .MinimumLength(1)
             .WithMessage("Id is required");

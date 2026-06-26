@@ -7,8 +7,8 @@ using Reactivities.Application.Contracts.Persistence;
 using Reactivities.Application.Contracts.Scheduling;
 using Reactivities.Infrastructure.Persistence;
 using Reactivities.Infrastructure.Repositories;
-using Reactivities.Infrastructure.Scheduling;
 using Reactivities.Infrastructure.Scheduling.Activities;
+using Reactivities.Infrastructure.Security;
 using Reactivities.Infrastructure.Services;
 
 namespace Reactivities.Infrastructure;

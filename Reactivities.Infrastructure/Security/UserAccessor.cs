@@ -6,7 +6,7 @@ using Reactivities.Application.Exceptions;
 using Reactivities.Application.Models.Response.Identity;
 using Reactivities.Domain.Identity;
 
-namespace Reactivities.Infrastructure.Services;
+namespace Reactivities.Infrastructure.Security;
 
 public class UserAccessor(UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor) : IUserAccessor
 {

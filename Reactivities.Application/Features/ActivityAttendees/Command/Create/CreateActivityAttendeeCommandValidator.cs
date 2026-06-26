@@ -7,7 +7,7 @@ public class CreateActivityAttendeeCommandValidator : AbstractValidator<CreateAc
 {
     public CreateActivityAttendeeCommandValidator()
     {
-        RuleFor(x => x.Request.ActivityId)
+        RuleFor(x => x.ActivityId)
             .NotNull()
             .NotEmpty()
             .WithMessage("ActivityId is Required.");

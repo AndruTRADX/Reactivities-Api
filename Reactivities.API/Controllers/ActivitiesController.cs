@@ -39,9 +39,9 @@ public class ActivitiesController : BaseApiController
         return await mediator.Send(new UpdateActivityCommand { Activity = activity });
     }
 
-    [HttpPost("cancel-activity")]
-    public async Task<ActionResult<ApiResponse<Unit>>> CancelActivity(CancelActivityRequest request)
+    [HttpPatch("{id}/cancel")]
+    public async Task<ActionResult<ApiResponse<Unit>>> CancelActivity(string id, CancelActivityRequest request)
     {
-        return await mediator.Send(new CancelActivityAction { Request = request });
+        return await mediator.Send(new CancelActivityAction { Id = id, Request = request });
     }
 }

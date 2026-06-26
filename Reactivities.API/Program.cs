@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Reactivities.API;
 using Reactivities.Application;
+using Reactivities.Application.Contracts.Scheduling;
 using Reactivities.Domain.Identity;
 using Reactivities.Infrastructure;
 using Reactivities.Infrastructure.Persistence;
@@ -69,14 +70,15 @@ using (var scoped = app.Services.CreateScope())
     {
         var context = service.GetRequiredService<AppDbContext>();
         var userManager = service.GetRequiredService<UserManager<ApplicationUser>>();
+        var activityScheduler = service.GetRequiredService<IActivitySchedulerService>();
         await context.Database.MigrateAsync();
-        await AppDbContextSeed.SeedAsync(context, loggerFactory, userManager);
 
         var sql = EmbeddedSqlScriptLoader.Load("QuartzSqlServerSchema.Create.sql");
         var batches = sql.Split(["\r\nGO\r\n", "\nGO\n", "\r\nGO", "\nGO"], StringSplitOptions.RemoveEmptyEntries);
+        foreach (var batch in batches.Where(b => !string.IsNullOrWhiteSpace(b)))
+            await context.Database.ExecuteSqlRawAsync(batch.Trim());
 
-    foreach (var batch in batches.Where(b => !string.IsNullOrWhiteSpace(b)))
-        await context.Database.ExecuteSqlRawAsync(batch.Trim());
+        await AppDbContextSeed.SeedAsync(context, loggerFactory, userManager, activityScheduler);
     }
     catch (Exception ex)
     {

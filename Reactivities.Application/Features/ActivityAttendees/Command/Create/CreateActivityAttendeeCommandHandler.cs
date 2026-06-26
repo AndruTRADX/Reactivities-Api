@@ -11,8 +11,8 @@ public class CreateActivityAttendeeCommandHandler(IUnitOfWork unitOfWork, IUserA
 {
     public async Task<ApiResponse<string>> Handle(CreateActivityAttendeeCommand request, CancellationToken cancellationToken)
     {
-        var data = await unitOfWork.Repository<Activity>().GetFirstAsync(predicate: x => x.Id == request.Request.ActivityId, includeStrings: ["Attendees.User"], enabledTracking: true)
-        ?? throw new NotFoundException(nameof(Activity), request.Request.ActivityId);
+        var data = await unitOfWork.Repository<Activity>().GetFirstAsync(predicate: x => x.Id == request.ActivityId, includeStrings: ["Attendees.User"], enabledTracking: true)
+        ?? throw new NotFoundException(nameof(Activity), request.ActivityId);
 
         var userId = userAccessor.GetUserId();
         data.AddAttendee(userId);

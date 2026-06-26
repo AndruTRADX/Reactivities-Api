@@ -6,5 +6,6 @@ namespace Reactivities.Application.Features.Activities.Action.CancelActivity;
 
 public class CancelActivityAction : IRequest<ApiResponse<Unit>>
 {
+    public required string Id { get; set; }
     public required CancelActivityRequest Request { get; set; }
 }
