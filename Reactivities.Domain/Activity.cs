@@ -67,16 +67,16 @@ public class Activity : BaseDomainModel
     }
 
     public void Initialize(string hostUserId)
-{
-    Attendees.Add(new ActivityAttendee
     {
-        ActivityId = Id,
-        UserId = hostUserId,
-        IsHost = true,
-    });
+        Attendees.Add(new ActivityAttendee
+        {
+            ActivityId = Id,
+            UserId = hostUserId,
+            IsHost = true,
+        });
 
-    RaiseEvent(ActivityEventType.Created, hostUserId, string.Empty);
-}
+        RaiseEvent(ActivityEventType.Created, hostUserId, string.Empty);
+    }
 
     public void Update(string userId)
     {
@@ -86,7 +86,45 @@ public class Activity : BaseDomainModel
             throw new DomainException("Cannot cancel an activity that has been completed");
 
         if (CurrentStatus == ActivityEventType.Cancelled)
-            throw new DomainException("Cannot cancel an activity that has been cancelled already");
+            throw new DomainException("Cannot cancel an activity that has been already cancelled");
+    }
+
+    public void AddAttendee(string userId)
+    {
+        if (CurrentStatus == ActivityEventType.Completed)
+            throw new DomainException("Cannot attend an activity that has been completed");
+
+        if (CurrentStatus == ActivityEventType.Cancelled)
+            throw new DomainException("Cannot attend an activity that has been cancelled");
+
+        var alreadyAttending = Attendees.Any(x => x.UserId == userId);
+        if (alreadyAttending)
+            throw new DomainException("You are already attending the activity");
+
+        Attendees.Add(new ActivityAttendee
+        {
+            ActivityId = Id,
+            UserId = userId,
+        });
+
+        AddDomainEvent(new ActivityAddAttendeeDomainEvent(Id, Date));
+    }
+
+    public void RemoveAttendee(string userId)
+    {
+        if (CurrentStatus == ActivityEventType.Completed)
+            throw new DomainException("Cannot leave a completed activity.");
+
+        if (CurrentStatus == ActivityEventType.Cancelled)
+            throw new DomainException("Cannot leave a cancelled activity.");
+
+        var attendee = Attendees.Find(x => x.UserId == userId) 
+            ?? throw new DomainException("You are not attending this activity.");
+;
+        if (attendee.IsHost)
+            throw new DomainException("The host cannot leave the activity.");
+
+        Attendees.Remove(attendee);
     }
 
     private void EnsureUserIsHost(string userId)

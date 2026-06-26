@@ -13,12 +13,11 @@ public class CompleteActivityActionHandler(IUnitOfWork unitOfWork) : IRequestHan
     {
         var data = await unitOfWork
             .Repository<Activity>()
-            .GetFirstAsync(predicate: x => x.Id == request.ActivityId)
+            .GetFirstAsync(predicate: x => x.Id == request.ActivityId, enabledTracking: true, includeStrings: [])
         ?? throw new NotFoundException(nameof(Activity), request.ActivityId);
 
         data.Complete();
 
-        unitOfWork.Repository<Activity>().UpdateEntity(data);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return new ApiResponse<Unit>();
