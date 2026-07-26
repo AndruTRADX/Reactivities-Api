@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Reactivities.Domain.Common;
 using Reactivities.Domain.Enums;
@@ -9,6 +10,7 @@ namespace Reactivities.Domain;
 public class ActivityEvent : BaseDomainModel
 {
     [Column("id")]
+    [Key]
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
     [Column("activity_id")]

@@ -2,6 +2,9 @@
   <Folder Name="/documentation/">
     <File Path="documentation/README.md" />
   </Folder>
+  <Folder Name="/tasks/">
+    <File Path="tasks/README.md" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/API/">
     <Project Path="Reactivities.API/Reactivities.API.csproj" />

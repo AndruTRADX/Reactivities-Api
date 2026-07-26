@@ -3,6 +3,8 @@ using Reactivities.Application.Models.Request.Activities;
 using Reactivities.Application.Models.Response.Activities;
 using Reactivities.Application.Models.Response.Attendees;
 using Reactivities.Application.Models.Response.Identity;
+using Reactivities.Application.Models.Response.Photos;
+using Reactivities.Application.Models.Response.Profile;
 using Reactivities.Domain;
 using Reactivities.Domain.Identity;
 
@@ -19,5 +21,8 @@ public class MappingProfiles : Profile
         CreateMap<ActivityAttendee, AttendeesResponse>()
             .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User));
         CreateMap<ApplicationUser, UserResponse>();
+        CreateMap<ApplicationUser, UserProfile>();
+
+        CreateMap<Photo, PhotoResponse>();
     }
 }

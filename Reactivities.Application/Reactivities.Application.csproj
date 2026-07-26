@@ -13,9 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\ActivityAttendees\Command\Create\" />
-    <Folder Include="Features\ActivityAttendees\Command\Delete\" />
-    <Folder Include="Models\Request\Attendees\" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Profiles\queries\Get\" />
+    <Folder Include="Models\Response\Profile\" />
   </ItemGroup>
 
   <PropertyGroup>

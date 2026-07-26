@@ -4,7 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Reactivities.Application.Contracts.Identity;
 using Reactivities.Application.Contracts.Persistence;
+using Reactivities.Application.Contracts.Photos;
 using Reactivities.Application.Contracts.Scheduling;
+using Reactivities.Application.Models.Photos;
 using Reactivities.Infrastructure.Persistence;
 using Reactivities.Infrastructure.Repositories;
 using Reactivities.Infrastructure.Scheduling.Activities;
@@ -48,9 +50,18 @@ public static class InfrastructureServiceRegistration
 
         services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        // Schedulers
         services.AddScoped<IActivitySchedulerService, QuartzActivitySchedulerService>();
+
+        // Auth
         services.AddTransient<IAuthService, AuthService>();
         services.AddTransient<IUserAccessor, UserAccessor>();
+        services.AddTransient<IUserProfileService, UserProfileService>();
+
+        // Photos
+        services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
+        services.AddScoped<IPhotoService, PhotoService>();
 
         return services;
     }

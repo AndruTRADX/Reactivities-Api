@@ -32,6 +32,6 @@ public class UserAccessor(UserManager<ApplicationUser> userManager, IHttpContext
     public string GetUserId()
     {
         return httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier)
-            ?? throw new NotFoundException("User", "");
+            ?? throw new UnauthorizedException();
     }
 }

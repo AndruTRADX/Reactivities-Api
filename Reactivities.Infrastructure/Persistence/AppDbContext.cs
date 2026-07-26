@@ -11,6 +11,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<Activity> Activities { get; set; }
     public DbSet<ActivityAttendee> ActivityAttendees { get; set; }
     public DbSet<ActivityEvent> ActivityEvents { get; set; }
+    public DbSet<Photo> Photos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -25,6 +26,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         builder.Entity<ActivityAttendee>()
             .HasOne(au => au.User)
             .WithMany(a => a.Activities)
+            .HasForeignKey(au => au.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Photo>()
+            .HasOne(au => au.User)
+            .WithMany(a => a.Photos)
             .HasForeignKey(au => au.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Reactivities.Domain.Common;
 using Reactivities.Domain.Identity;
@@ -8,6 +9,7 @@ namespace Reactivities.Domain;
 public class ActivityAttendee : BaseDomainModel
 {
     [Column("id")]
+    [Key]
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
     [Column("activity_id")]
