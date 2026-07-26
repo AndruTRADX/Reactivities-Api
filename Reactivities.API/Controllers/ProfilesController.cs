@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Reactivities.Application.Features.Profiles.Commands.AddPhoto;
-using Reactivities.Application.Features.Profiles.Commands.RemovePhoto;
-using Reactivities.Application.Features.Profiles.Commands.SetMainPhoto;
+using Reactivities.Application.Features.Profiles.Actions.AddPhoto;
+using Reactivities.Application.Features.Profiles.Actions.RemovePhoto;
+using Reactivities.Application.Features.Profiles.Actions.SetMainPhoto;
 using Reactivities.Application.Features.Profiles.queries.Get;
 using Reactivities.Application.Features.Profiles.queries.GetPagedPhotos;
 using Reactivities.Application.Models.Request.Photos;
@@ -29,19 +29,19 @@ namespace Reactivities.API.Controllers
         [HttpPost("add-photo")]
         public async Task<ActionResult<ApiResponse<PhotoResponse>>> AddPhoto([FromForm] AddPhotoRequest request)
         {
-            return await mediator.Send(new AddPhotoProfileCommand { Photo = request });
+            return await mediator.Send(new AddPhotoProfileAction { Photo = request });
         }
 
         [HttpDelete("{photoId}/photos")]
         public async Task<ActionResult<ApiResponse<Unit>>> DeletePhoto(string photoId)
         {
-            return await mediator.Send(new RemovePhotoProfileCommand { PhotoId = photoId });
+            return await mediator.Send(new RemovePhotoProfileAction { PhotoId = photoId });
         }
 
         [HttpPut("{photoId}/set-main-photo")]
         public async Task<ActionResult<ApiResponse<Unit>>> SetMainPhoto(string photoId)
         {
-            return await mediator.Send(new SetMainPhotoProfileCommand { PhotoId = photoId });
+            return await mediator.Send(new SetMainPhotoProfileAction { PhotoId = photoId });
         }
     }
 }

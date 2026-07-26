@@ -1,4 +1,4 @@
-using Reactivities.Application.Models.Response.Identity;
+using Reactivities.Application.Models.Response.Profile;
 
 namespace Reactivities.Application.Models.Response.Attendees;
 
@@ -8,5 +8,5 @@ public class AttendeesResponse
     public string ActivityId { get; set; } = string.Empty;
     public bool IsHost { get; set; }
     public DateTime DateJoined { get; set; }
-    public UserResponse User { get; set; } = null!;
+    public UserProfile User { get; set; } = null!;
 }

@@ -6,11 +6,11 @@ using Reactivities.Application.Exceptions;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Application.Models.Response.Photos;
 
-namespace Reactivities.Application.Features.Profiles.Commands.AddPhoto;
+namespace Reactivities.Application.Features.Profiles.Actions.AddPhoto;
 
-public class AddPhotoProfileCommandHandler(IUserAccessor userAccessor, IUserProfileService userProfileService, IPhotoService photoService, IMapper mapper) : IRequestHandler<AddPhotoProfileCommand, ApiResponse<PhotoResponse>>
+public class AddPhotoProfileActionHandler(IUserAccessor userAccessor, IUserProfileService userProfileService, IPhotoService photoService, IMapper mapper) : IRequestHandler<AddPhotoProfileAction, ApiResponse<PhotoResponse>>
 {
-    public async Task<ApiResponse<PhotoResponse>> Handle(AddPhotoProfileCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<PhotoResponse>> Handle(AddPhotoProfileAction request, CancellationToken cancellationToken)
     {
         var userId = userAccessor.GetUserId();
 

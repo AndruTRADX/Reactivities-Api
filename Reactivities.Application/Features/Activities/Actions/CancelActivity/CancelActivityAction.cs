@@ -2,7 +2,7 @@ using MediatR;
 using Reactivities.Application.Models.Request.Activities;
 using Reactivities.Application.Models.Response.Common;
 
-namespace Reactivities.Application.Features.Activities.Action.CancelActivity;
+namespace Reactivities.Application.Features.Activities.Actions.CancelActivity;
 
 public class CancelActivityAction : IRequest<ApiResponse<Unit>>
 {

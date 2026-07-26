@@ -1,7 +1,7 @@
 using MediatR;
 using Reactivities.Application.Models.Response.Common;
 
-namespace Reactivities.Application.Features.Activities.Action.CompleteActivity;
+namespace Reactivities.Application.Features.Activities.Actions.CompleteActivity;
 
 public class CompleteActivityAction : IRequest<ApiResponse<Unit>>
 {

@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Reactivities.Application.Features.Activities.Action.CancelActivity;
+using Reactivities.Application.Features.Activities.Actions.CancelActivity;
 using Reactivities.Application.Features.Activities.Commands.Create;
 using Reactivities.Application.Features.Activities.Commands.Update;
 using Reactivities.Application.Features.Activities.Queries.GetById;

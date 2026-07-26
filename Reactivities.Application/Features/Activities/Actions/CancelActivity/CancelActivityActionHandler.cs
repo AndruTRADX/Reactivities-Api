@@ -6,7 +6,7 @@ using Reactivities.Application.Exceptions;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Domain;
 
-namespace Reactivities.Application.Features.Activities.Action.CancelActivity;
+namespace Reactivities.Application.Features.Activities.Actions.CancelActivity;
 
 public class CancelActivityActionHandler(IUserAccessor userAccessor, IUnitOfWork unitOfWork, IActivitySchedulerService activityScheduler) : IRequestHandler<CancelActivityAction, ApiResponse<Unit>>
 {

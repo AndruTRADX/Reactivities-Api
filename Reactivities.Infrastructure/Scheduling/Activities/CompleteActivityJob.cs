@@ -1,6 +1,6 @@
 using MediatR;
 using Quartz;
-using Reactivities.Application.Features.Activities.Action.CompleteActivity;
+using Reactivities.Application.Features.Activities.Actions.CompleteActivity;
 
 namespace Reactivities.Infrastructure.Scheduling.Activities;
 

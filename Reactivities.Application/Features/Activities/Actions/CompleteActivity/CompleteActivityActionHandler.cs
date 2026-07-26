@@ -5,7 +5,7 @@ using Reactivities.Application.Exceptions;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Domain;
 
-namespace Reactivities.Application.Features.Activities.Action.CompleteActivity;
+namespace Reactivities.Application.Features.Activities.Actions.CompleteActivity;
 
 public class CompleteActivityActionHandler(IUnitOfWork unitOfWork) : IRequestHandler<CompleteActivityAction, ApiResponse<Unit>>
 {

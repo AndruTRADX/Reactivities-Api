@@ -1,7 +1,7 @@
 using System;
 using FluentValidation;
 
-namespace Reactivities.Application.Features.Activities.Action.CancelActivity;
+namespace Reactivities.Application.Features.Activities.Actions.CancelActivity;
 
 public class CancelActivityActionValidator: AbstractValidator<CancelActivityAction>
 {
