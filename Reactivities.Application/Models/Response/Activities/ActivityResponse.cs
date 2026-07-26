@@ -1,6 +1,4 @@
-using System;
 using Reactivities.Application.Models.Response.Attendees;
-using Reactivities.Domain.Enums;
 
 namespace Reactivities.Application.Models.Response.Activities;
 

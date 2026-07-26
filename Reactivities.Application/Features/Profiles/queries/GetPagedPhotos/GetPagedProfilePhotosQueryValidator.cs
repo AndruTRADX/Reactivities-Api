@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Reactivities.Application.Features.Profiles.queries.GetPagedPhotos;
+namespace Reactivities.Application.Features.Profiles.Queries.GetPagedPhotos;
 
 public class GetPagedProfilePhotosQueryValidator : AbstractValidator<GetPagedProfilePhotosQuery>
 {

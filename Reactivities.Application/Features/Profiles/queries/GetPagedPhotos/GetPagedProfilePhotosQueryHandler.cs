@@ -7,7 +7,7 @@ using Reactivities.Application.Models.Response.Photos;
 using Reactivities.Application.Specification.Photos;
 using Reactivities.Domain;
 
-namespace Reactivities.Application.Features.Profiles.queries.GetPagedPhotos;
+namespace Reactivities.Application.Features.Profiles.Queries.GetPagedPhotos;
 
 public class GetPagedProfilePhotosQueryHandler(IMapper mapper, IUnitOfWork unitOfWork) : IRequestHandler<GetPagedProfilePhotosQuery, ApiResponse<PagedResponse<PhotoResponse>>>
 {

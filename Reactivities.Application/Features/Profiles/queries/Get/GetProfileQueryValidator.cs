@@ -1,7 +1,7 @@
 using System;
 using FluentValidation;
 
-namespace Reactivities.Application.Features.Profiles.queries.Get;
+namespace Reactivities.Application.Features.Profiles.Queries.Get;
 
 public class GetProfileQueryValidator : AbstractValidator<GetProfileQuery>
 {
