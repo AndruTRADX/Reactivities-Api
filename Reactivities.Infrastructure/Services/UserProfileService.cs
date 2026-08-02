@@ -46,11 +46,11 @@ public class UserProfileService(UserManager<ApplicationUser> userManager, IUnitO
         await unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<UserProfile> GetUserProfile(string userId)
+    public async Task<UserProfileResponse> GetUserProfile(string userId)
     {
         var user = await userManager.FindByIdAsync(userId)
             ?? throw new NotFoundException("UserProfile", userId);
 
-        return mapper.Map<UserProfile>(user);
+        return mapper.Map<UserProfileResponse>(user);
     }
 }

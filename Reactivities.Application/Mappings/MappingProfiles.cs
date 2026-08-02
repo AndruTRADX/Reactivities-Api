@@ -21,7 +21,7 @@ public class MappingProfiles : Profile
         CreateMap<ActivityAttendee, AttendeesResponse>()
             .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User));
         CreateMap<ApplicationUser, UserResponse>();
-        CreateMap<ApplicationUser, UserProfile>();
+        CreateMap<ApplicationUser, UserProfileResponse>();
 
         CreateMap<Photo, PhotoResponse>();
     }

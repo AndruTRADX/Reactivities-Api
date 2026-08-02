@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Reactivities.Application.Features.Profiles.Actions.AddPhoto;
 using Reactivities.Application.Features.Profiles.Actions.RemovePhoto;
 using Reactivities.Application.Features.Profiles.Actions.SetMainPhoto;
-using Reactivities.Application.Features.Profiles.queries.Get;
-using Reactivities.Application.Features.Profiles.queries.GetPagedPhotos;
+using Reactivities.Application.Features.Profiles.Queries.Get;
+using Reactivities.Application.Features.Profiles.Queries.GetPagedPhotos;
 using Reactivities.Application.Models.Request.Photos;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Application.Models.Response.Photos;
@@ -15,7 +15,7 @@ namespace Reactivities.API.Controllers
     public class ProfilesController : BaseApiController
     {
         [HttpGet("{userId}")]
-        public async Task<ActionResult<ApiResponse<UserProfile>>> GetProfile(string userId)
+        public async Task<ActionResult<ApiResponse<UserProfileResponse>>> GetProfile(string userId)
         {
             return await mediator.Send(new GetProfileQuery { UserId = userId });
         }

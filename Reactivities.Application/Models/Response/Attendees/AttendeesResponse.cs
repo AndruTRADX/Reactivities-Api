@@ -8,5 +8,5 @@ public class AttendeesResponse
     public string ActivityId { get; set; } = string.Empty;
     public bool IsHost { get; set; }
     public DateTime DateJoined { get; set; }
-    public UserProfile User { get; set; } = null!;
+    public UserProfileResponse User { get; set; } = null!;
 }

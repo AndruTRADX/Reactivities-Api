@@ -1,6 +1,6 @@
 namespace Reactivities.Application.Models.Response.Profile;
 
-public class UserProfile
+public class UserProfileResponse
 {
     public string Id { get; set; } = string.Empty;
     public string DisplayName { get; set; } = string.Empty;
