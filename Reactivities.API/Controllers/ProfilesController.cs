@@ -1,11 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Reactivities.Application.Features.Profiles.Actions.AddPhoto;
+using Reactivities.Application.Features.Profiles.Actions.Edit;
 using Reactivities.Application.Features.Profiles.Actions.RemovePhoto;
 using Reactivities.Application.Features.Profiles.Actions.SetMainPhoto;
 using Reactivities.Application.Features.Profiles.Queries.Get;
 using Reactivities.Application.Features.Profiles.Queries.GetPagedPhotos;
 using Reactivities.Application.Models.Request.Photos;
+using Reactivities.Application.Models.Request.Profiles;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Application.Models.Response.Photos;
 using Reactivities.Application.Models.Response.Profile;
@@ -42,6 +44,12 @@ namespace Reactivities.API.Controllers
         public async Task<ActionResult<ApiResponse<Unit>>> SetMainPhoto(string photoId)
         {
             return await mediator.Send(new SetMainPhotoProfileAction { PhotoId = photoId });
+        }
+
+        [HttpPut("edit-profile")]
+        public async Task<ActionResult<ApiResponse<UserProfileResponse>>> EditProfile(EditProfileRequest request)
+        {
+            return await mediator.Send(new EditProfileProfileAction { Profile = request });
         }
     }
 }

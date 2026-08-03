@@ -12,6 +12,12 @@ public class ApplicationUser : IdentityUser
     public List<ActivityAttendee> Activities { get; set; } = [];
     public List<Photo> Photos { get; set; } = [];
 
+    public void EditProfile(string displayName, string? biography)
+    {
+        DisplayName = displayName;
+        Biography = biography;
+    }
+
     public Photo AddPhoto(string url, string publicId)
     {
         var photo = new Photo

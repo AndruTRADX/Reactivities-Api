@@ -53,4 +53,16 @@ public class UserProfileService(UserManager<ApplicationUser> userManager, IUnitO
 
         return mapper.Map<UserProfileResponse>(user);
     }
+
+    public async Task<UserProfileResponse> EditProfileAsync(string userId, string displayName, string? biography, CancellationToken cancellationToken)
+    {
+        var user = await userManager.FindByIdAsync(userId)
+            ?? throw new UnauthorizedException();
+
+        user.EditProfile(displayName, biography);
+
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return mapper.Map<UserProfileResponse>(user);
+    }
 }
