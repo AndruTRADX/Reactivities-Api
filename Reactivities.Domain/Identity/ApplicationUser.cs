@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using Reactivities.Domain.Common;
 
@@ -5,8 +6,13 @@ namespace Reactivities.Domain.Identity;
 
 public class ApplicationUser : IdentityUser
 {
+    [MaxLength(50)]
     public string? DisplayName { get; set; }
+
+    [MaxLength(1000)]
     public string? Biography { get; set; }
+
+    [MaxLength(500)]
     public string? ImageUrl { get; set; }
 
     public List<ActivityAttendee> Activities { get; set; } = [];

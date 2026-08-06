@@ -11,6 +11,12 @@ public class EditProfileProfileActionValidator : AbstractValidator<EditProfilePr
         RuleFor(x => x.Profile.DisplayName)
             .NotNull()
             .NotEmpty()
-            .WithMessage("DisplayName is Required.");
+            .WithMessage("DisplayName is Required.")
+            .MaximumLength(50)
+            .WithMessage("DisplayName must not exceed 50 characters");
+
+        RuleFor(x => x.Profile.Biography)
+            .MaximumLength(1000)
+            .WithMessage("Biography must not exceed 1000 characters");
     }
 }

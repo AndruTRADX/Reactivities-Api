@@ -10,12 +10,15 @@ public class ActivityAttendee : BaseDomainModel
 {
     [Column("id")]
     [Key]
+    [MaxLength(36)]
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
     [Column("activity_id")]
+    [MaxLength(36)]
     public string ActivityId { get; set; } = string.Empty;
 
     [Column("user_id")]
+    [MaxLength(36)]
     public string UserId { get; set; } = string.Empty;
 
     [Column("is_host")]

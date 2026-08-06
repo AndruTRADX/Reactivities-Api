@@ -10,15 +10,19 @@ public class Photo : BaseDomainModel
 {
     [Column("id")]
     [Key]
+    [MaxLength(36)]
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
     [Column("url")]
+    [MaxLength(500)]
     public required string Url { get; set; }
 
     [Column("public_id")]
+    [MaxLength(255)]
     public required string PublicId { get; set; }
 
     [Column("user_id")]
+    [MaxLength(36)]
     public required string UserId { get; set; }
 
     public ApplicationUser User { get; set; } = null!;

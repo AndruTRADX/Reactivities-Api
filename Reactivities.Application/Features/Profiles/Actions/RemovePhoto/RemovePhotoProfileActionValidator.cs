@@ -10,6 +10,8 @@ public class RemovePhotoProfileActionValidator : AbstractValidator<RemovePhotoPr
         RuleFor(x => x.PhotoId)
             .NotNull()
             .NotEmpty()
-            .WithMessage("PhotoId is Required.");
+            .WithMessage("PhotoId is Required.")
+            .Length(36)
+            .WithMessage("PhotoId must be 36 characters");
     }
 }

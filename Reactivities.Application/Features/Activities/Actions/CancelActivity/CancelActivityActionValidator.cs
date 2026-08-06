@@ -10,6 +10,12 @@ public class CancelActivityActionValidator: AbstractValidator<CancelActivityActi
         RuleFor(p => p.Id)
             .NotNull().NotEmpty()
             .MinimumLength(1)
-            .WithMessage("Id is required");
+            .WithMessage("Id is required")
+            .Length(36)
+            .WithMessage("Id must be 36 characters");
+
+        RuleFor(p => p.Request.Reason)
+            .MaximumLength(500)
+            .WithMessage("Reason must not exceed 500 characters");
     }
 }

@@ -9,7 +9,9 @@ public class CreateActivityCommandValidator : AbstractValidator<CreateActivityCo
         RuleFor(p => p.Activity.Title)
             .NotNull().NotEmpty()
             .MinimumLength(3)
-            .WithMessage("Title is required and must have at least 3 characters");
+            .WithMessage("Title is required and must have at least 3 characters")
+            .MaximumLength(100)
+            .WithMessage("Title must not exceed 100 characters");
 
         RuleFor(p => p.Activity.Date)
             .GreaterThan(DateTime.UtcNow)
@@ -18,22 +20,30 @@ public class CreateActivityCommandValidator : AbstractValidator<CreateActivityCo
         RuleFor(p => p.Activity.Description)
             .NotNull().NotEmpty()
             .MinimumLength(3)
-            .WithMessage("Description is required and must have at least 3 characters");
+            .WithMessage("Description is required and must have at least 3 characters")
+            .MaximumLength(5000)
+            .WithMessage("Description must not exceed 5000 characters");
 
         RuleFor(p => p.Activity.Category)
             .NotNull().NotEmpty()
             .MinimumLength(3)
-            .WithMessage("Category is required and must have at least 3 characters");
+            .WithMessage("Category is required and must have at least 3 characters")
+            .MaximumLength(50)
+            .WithMessage("Category must not exceed 50 characters");
 
         RuleFor(p => p.Activity.City)
             .NotNull().NotEmpty()
             .MinimumLength(3)
-            .WithMessage("City is required and must have at least 3 characters");
+            .WithMessage("City is required and must have at least 3 characters")
+            .MaximumLength(100)
+            .WithMessage("City must not exceed 100 characters");
 
         RuleFor(p => p.Activity.Venue)
             .NotNull().NotEmpty()
             .MinimumLength(3)
-            .WithMessage("Venue is required and must have at least 3 characters");
+            .WithMessage("Venue is required and must have at least 3 characters")
+            .MaximumLength(250)
+            .WithMessage("Venue must not exceed 250 characters");
 
         RuleFor(p => p.Activity.Latitude)
             .NotEmpty()

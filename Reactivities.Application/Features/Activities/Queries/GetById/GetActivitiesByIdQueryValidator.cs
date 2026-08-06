@@ -9,6 +9,8 @@ public class GetActivitiesByIdQueryValidator : AbstractValidator<GetActivitiesBy
     {
         RuleFor(p => p.Id)
             .NotNull().NotEmpty()
-            .WithMessage("Id is required");
+            .WithMessage("Id is required")
+            .Length(36)
+            .WithMessage("Id must be 36 characters");
     }
 }

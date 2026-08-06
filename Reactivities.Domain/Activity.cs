@@ -11,24 +11,30 @@ public class Activity : BaseDomainModel
 {
     [Column("id")]
     [Key]
+    [MaxLength(36)]
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
     [Column("title")]
+    [MaxLength(100)]
     public string Title { get; set; } = string.Empty;
 
     [Column("date")]
     public DateTime Date { get; set; }
 
     [Column("description")]
+    [MaxLength(5000)]
     public string Description { get; set; } = string.Empty;
 
     [Column("category")]
+    [MaxLength(50)]
     public string Category { get; set; } = string.Empty;
 
     [Column("city")]
+    [MaxLength(100)]
     public string City { get; set; } = string.Empty;
 
     [Column("venue")]
+    [MaxLength(250)]
     public string Venue { get; set; } = string.Empty;
 
     [Column("latitude")]
