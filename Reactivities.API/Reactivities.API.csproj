@@ -25,6 +25,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="ExceptionHandlers\" />
     <Folder Include="Filters\" />
+    <Folder Include="SignalR\" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Reactivities.API;
+using Reactivities.API.SignalR;
 using Reactivities.Application;
 using Reactivities.Application.Contracts.Scheduling;
 using Reactivities.Domain.Identity;
@@ -15,6 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
 
 // Services
 builder.Services.AddApiServices();
@@ -60,6 +62,7 @@ app.UseAuthorization();
 app.MapGroup("api").MapIdentityApi<ApplicationUser>();
 
 app.MapControllers();
+app.MapHub<CommentHub>("/hubs/comments");
 
 using (var scoped = app.Services.CreateScope())
 {

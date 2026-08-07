@@ -131,7 +131,7 @@ public class Activity : BaseDomainModel
         Attendees.Remove(attendee);
     }
 
-    public void AddComment(string userId, string body)
+    public ActivityComment AddComment(string userId, string body)
     {
         if (CurrentStatus == ActivityEventType.Completed)
             throw new DomainException("Cannot comment on an activity that has been completed");
@@ -139,12 +139,16 @@ public class Activity : BaseDomainModel
         if (CurrentStatus == ActivityEventType.Cancelled)
             throw new DomainException("Cannot comment on an activity that has been cancelled");
 
-        Comments.Add(new ActivityComment
+        var comment = new ActivityComment
         {
             ActivityId = Id,
             UserId = userId,
             Body = body,
-        });
+        };
+
+        Comments.Add(comment);
+
+        return comment;
     }
 
     public void RemoveComment(string commentId, string userId)

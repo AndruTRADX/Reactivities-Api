@@ -1,24 +1,32 @@
+using AutoMapper;
 using MediatR;
 using Reactivities.Application.Contracts.Identity;
 using Reactivities.Application.Contracts.Persistence;
 using Reactivities.Application.Exceptions;
+using Reactivities.Application.Models.Response.ActivityComments;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Domain;
 
 namespace Reactivities.Application.Features.ActivityComments.Commands.Create;
 
-public class AddActivityCommentCommandHandler(IUnitOfWork unitOfWork, IUserAccessor userAccessor) : IRequestHandler<AddActivityCommentCommand, ApiResponse<Unit>>
+public class AddActivityCommentCommandHandler(IUnitOfWork unitOfWork, IUserAccessor userAccessor, IMapper mapper) : IRequestHandler<AddActivityCommentCommand, ApiResponse<ActivityCommentResponse>>
 {
-    public async Task<ApiResponse<Unit>> Handle(AddActivityCommentCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<ActivityCommentResponse>> Handle(AddActivityCommentCommand request, CancellationToken cancellationToken)
     {
         var data = await unitOfWork.Repository<Activity>().GetFirstAsync(predicate: x => x.Id == request.ActivityId, includeStrings: ["Comments"], enabledTracking: true)
             ?? throw new NotFoundException(nameof(Activity), request.ActivityId);
 
         var userId = userAccessor.GetUserId();
-        data.AddComment(userId, request.Request.Body);
+        var comment = data.AddComment(userId, request.Request.Body);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new ApiResponse<Unit>();
+        // AddComment() only sets UserId on the new comment - the User navigation isn't
+        // fixed up automatically since the ApplicationUser was never loaded into this
+        // context. Re-fetch the saved comment with User included so the response has it.
+        var savedComment = await unitOfWork.Repository<ActivityComment>().GetFirstAsync(predicate: x => x.Id == comment.Id, includeStrings: ["User"], enabledTracking: false)
+            ?? throw new NotFoundException(nameof(ActivityComment), comment.Id);
+
+        return new ApiResponse<ActivityCommentResponse>(mapper.Map<ActivityCommentResponse>(savedComment));
     }
 }
