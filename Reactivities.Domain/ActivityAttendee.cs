@@ -24,7 +24,7 @@ public class ActivityAttendee : BaseDomainModel
     public string ActivityId { get; set; } = string.Empty;
 
     [Column("user_id")]
-    [MaxLength(36)]
+    [MaxLength(450)]
     public string UserId { get; set; } = string.Empty;
 
     public Activity Activity { get; set; } = null!;

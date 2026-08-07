@@ -1,12 +1,13 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Reactivities.Domain.Common;
 using Reactivities.Domain.Identity;
 
 namespace Reactivities.Domain;
 
 [Table("tb_activity_comment")]
-public class ActivityComment
+public class ActivityComment : BaseDomainModel
 {
     [Column("id")]
     [Key]
@@ -21,7 +22,7 @@ public class ActivityComment
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    [MaxLength(36)]
+    [MaxLength(450)]
     [Column("user_id")]
     public string UserId { get; set; } = string.Empty;
 

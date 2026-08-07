@@ -1,38 +1,17 @@
-using MediatR;
 using Reactivities.Application.Contracts.Persistence;
 using Reactivities.Domain.Common;
 using Reactivities.Infrastructure.Persistence;
 
 namespace Reactivities.Infrastructure.Repositories;
 
-public class UnitOfWork(AppDbContext context, IPublisher publisher) : IUnitOfWork
+public class UnitOfWork(AppDbContext context) : IUnitOfWork
 {
     private readonly AppDbContext _context = context;
-    private readonly IPublisher _publisher = publisher;
     private readonly Dictionary<Type, object> _repositories = [];
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var entitiesWithEvents = _context.ChangeTracker
-            .Entries<BaseDomainModel>()
-            .Select(e => e.Entity)
-            .Where(e => e.DomainEvents.Count != 0)
-            .ToList();
-
-        var result = await _context.SaveChangesAsync(cancellationToken);
-
-        foreach (var entity in entitiesWithEvents)
-        {
-            var domainEvents = entity.DomainEvents.ToList();
-            entity.ClearDomainEvents();
-
-            foreach (var domainEvent in domainEvents)
-            {
-                await _publisher.Publish(domainEvent, cancellationToken);
-            }
-        }
-
-        return result;
+        return await _context.SaveChangesAsync(cancellationToken);
     }
 
     public IAsyncRepository<TEntity> Repository<TEntity>() where TEntity : BaseDomainModel

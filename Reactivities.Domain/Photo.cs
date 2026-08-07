@@ -22,7 +22,7 @@ public class Photo : BaseDomainModel
     public required string PublicId { get; set; }
 
     [Column("user_id")]
-    [MaxLength(36)]
+    [MaxLength(450)]
     public required string UserId { get; set; }
 
     public ApplicationUser User { get; set; } = null!;

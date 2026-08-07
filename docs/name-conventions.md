@@ -58,6 +58,8 @@ Features/EntityItems/
 │   └── Delete/
 ```
 
+The same plural rule applies to every other per-kind subfolder — `Actions/`, `Queries/`, and so on. See [Commands vs Actions](#commands-vs-actions) for which suffix a given operation should use in the first place.
+
 ```text
 Models/Response/
 ├── EntityItems/            ✅ plural — matches every sibling under Response/
@@ -120,6 +122,17 @@ GetPagedEntitiesQuery           ✅ plural — matches the collection return typ
 
 Read the return type before naming the query — don't default to the entity's own plural form out of habit.
 
+### Commands vs Actions
+
+Both are MediatR request triplets living in a per-operation subfolder (`Features/Entities/Commands/<Op>/`, `Features/Entities/Actions/<Op>/`) and follow the same `<Name>` / `<Name>Handler` / `<Name>Validator` shape described above — just with `Command` or `Action` as the suffix instead of `Query`. The suffix is not a coin flip; it tells the reader what kind of operation they're looking at before they open the handler.
+
+- **`Command`** — the resource's own foundational lifecycle operation: bringing its row into existence (`CreateEntityCommand`, `AddEntityItemCommand`), replacing its full editable state (`UpdateEntityCommand`), or removing its row (`DeleteEntityItemCommand`). There's exactly one Command per lifecycle stage of a given resource.
+- **`Action`** — anything narrower than that. Two situations call for `Action` instead:
+  1. **A targeted mutation of an already-existing resource** that isn't a full replace — a state transition (`CancelEntityAction`, `CompleteEntityAction` — flips one field via a named domain rule), a single-field edit, or flipping a flag (`SetPrimaryItemAction`).
+  2. **An operation on a secondary/nested concern managed through a parent feature**, even when that operation is itself a full create/delete — e.g. `AddItemAction`/`RemoveItemAction` under `Features/Entities/Actions/` when `Item` is a nested concern of `Entity` with no `Features/Items/Commands/` of its own to own that lifecycle.
+
+**Litmus test:** if the operation's entire job is "make this row exist, fully replace it, or make it stop existing" *and* the resource has (or deserves) its own feature area for that lifecycle, it's a `Command`. If it's a narrower behavior — a status flip, a partial edit, or a create/delete performed on a resource nested under a different feature — it's an `Action`. One more tell: every `Command` in this codebase is triggered directly by an API client; an `Action`, because it represents a business capability rather than a client-driven CRUD verb, is sometimes triggered by something else entirely — a scheduled job or event handler sending the same MediatR request. If you find yourself wiring a non-HTTP trigger to a `*Command`, that's a sign it should have been named `*Action`.
+
 ### Domain entity classes
 
 PascalCase, singular, matching the [Entities](#entities) rules above (`Entity`, `EntityItem` — never a bare dependent name).
@@ -170,7 +183,7 @@ Don't pluralize a controller just because the entity it wraps has a plural featu
 - **Route base path is plural** when the controller is plural (see [Controllers](#controllers)): `GET /api/entities`, `GET /api/entities/{id}`, `POST /api/entities`. A singleton-resource controller keeps whatever singular/verb-based paths make sense for its scoped actions (`GET /api/account/user-info`), since there's no collection to name in the plural.
 - **Nested dependent-resource routes** are prefixed by the owning controller, matching the `EntityItem` naming from [Entities](#entities) — e.g. a dedicated `EntityItemsController` for items that have enough of their own behavior to warrant it, or an action nested under the parent's controller (`POST /api/entities/{entityId}/items`) when the item's lifecycle is simple. Pick one shape per relationship and stay consistent within it.
 - **Route parameter names** disambiguate whose id is whose: `{id}` refers to the resource the current controller/action is primarily about; `{entityId}` (or similarly qualified) is used the moment an action needs a *different* resource's id, typically the parent in a nested route.
-- **HTTP verb mapping**: `GET` reads (one or many, per the cardinality of the route), `POST` creates, `PUT` performs a full/idempotent update, `PATCH` performs a partial update or a named state transition (`PATCH /entities/{id}/cancel`), `DELETE` removes.
+- **HTTP verb mapping**: `GET` reads (one or many, per the cardinality of the route), `POST` creates, `PUT` performs a full/idempotent update, `PATCH` performs a partial update or a named state transition (`PATCH /entities/{id}/cancel`), `DELETE` removes. This lines up with the [Commands vs Actions](#commands-vs-actions) split: `POST`/`PUT`/`DELETE` on the resource's own base route are usually backed by a `Command`, while `PATCH` and custom action-shaped routes (`.../cancel`, `.../set-main`) are usually backed by an `Action`.
 
 ## Cheat sheet
 
@@ -183,3 +196,5 @@ Don't pluralize a controller just because the entity it wraps has a plural featu
 | Does this command/query act on or return one item, or many? | Name matches that cardinality, not the entity's default plurality |
 | Does this controller have a route that lists/creates into a collection? | Plural controller name and plural base route. If not, singular. |
 | Is this a domain method called directly on the entity instance? | Drop the entity prefix — the receiver already provides it |
+| Does this operation create the resource's row, fully replace it, or delete it — for a resource that owns this lifecycle? | `Command` |
+| Does this operation do something narrower (state transition, partial edit) or manage a nested concern through a parent feature? | `Action` |

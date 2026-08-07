@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Reactivities.Domain.Common;
 using Reactivities.Domain.Enums;
-using Reactivities.Domain.Events;
 
 namespace Reactivities.Domain;
 
@@ -113,8 +112,6 @@ public class Activity : BaseDomainModel
             ActivityId = Id,
             UserId = userId,
         });
-
-        AddDomainEvent(new ActivityAddAttendeeDomainEvent(Id, Date));
     }
 
     public void RemoveAttendee(string userId)
@@ -125,13 +122,46 @@ public class Activity : BaseDomainModel
         if (CurrentStatus == ActivityEventType.Cancelled)
             throw new DomainException("Cannot leave a cancelled activity.");
 
-        var attendee = Attendees.Find(x => x.UserId == userId) 
+        var attendee = Attendees.Find(x => x.UserId == userId)
             ?? throw new DomainException("You are not attending this activity.");
-;
+
         if (attendee.IsHost)
             throw new DomainException("The host cannot leave the activity.");
 
         Attendees.Remove(attendee);
+    }
+
+    public void AddComment(string userId, string body)
+    {
+        if (CurrentStatus == ActivityEventType.Completed)
+            throw new DomainException("Cannot comment on an activity that has been completed");
+
+        if (CurrentStatus == ActivityEventType.Cancelled)
+            throw new DomainException("Cannot comment on an activity that has been cancelled");
+
+        Comments.Add(new ActivityComment
+        {
+            ActivityId = Id,
+            UserId = userId,
+            Body = body,
+        });
+    }
+
+    public void RemoveComment(string commentId, string userId)
+    {
+        if (CurrentStatus == ActivityEventType.Completed)
+            throw new DomainException("Cannot comment on an activity that has been completed");
+
+        if (CurrentStatus == ActivityEventType.Cancelled)
+            throw new DomainException("Cannot comment on an activity that has been cancelled");
+
+        var comment = Comments.Find(x => x.Id == commentId)
+            ?? throw new DomainException("Comment does not exists.");
+
+        if (comment.UserId != userId)
+            throw new DomainException("This comment does not belong to you.");
+
+        Comments.Remove(comment);
     }
 
     private void EnsureUserIsHost(string userId)
@@ -151,7 +181,5 @@ public class Activity : BaseDomainModel
             Reason = reason,
             OccurredAt = DateTime.UtcNow,
         });
-
-        AddDomainEvent(new ActivityStatusChangedDomainEvent(Id, type, Date));
     }
 }

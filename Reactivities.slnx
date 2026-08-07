@@ -1,6 +1,6 @@
 <Solution>
-  <Folder Name="/documentation/">
-    <File Path="documentation/README.md" />
+  <Folder Name="/docs/">
+    <File Path="docs/name-conventions.md" />
   </Folder>
   <Folder Name="/tasks/">
     <File Path="tasks/README.md" />

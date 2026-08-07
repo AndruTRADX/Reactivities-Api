@@ -5,17 +5,17 @@ using Reactivities.Application.Exceptions;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Domain;
 
-namespace Reactivities.Application.Features.ActivityComments.Commands.Create;
+namespace Reactivities.Application.Features.ActivityComments.Commands.Delete;
 
-public class AddActivityCommentCommandHandler(IUnitOfWork unitOfWork, IUserAccessor userAccessor) : IRequestHandler<AddActivityCommentCommand, ApiResponse<Unit>>
+public class DeleteActivityCommentCommandHandler(IUnitOfWork unitOfWork, IUserAccessor userAccessor) : IRequestHandler<DeleteActivityCommentCommand, ApiResponse<Unit>>
 {
-    public async Task<ApiResponse<Unit>> Handle(AddActivityCommentCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<Unit>> Handle(DeleteActivityCommentCommand request, CancellationToken cancellationToken)
     {
         var data = await unitOfWork.Repository<Activity>().GetFirstAsync(predicate: x => x.Id == request.ActivityId, includeStrings: ["Comments"], enabledTracking: true)
             ?? throw new NotFoundException(nameof(Activity), request.ActivityId);
 
         var userId = userAccessor.GetUserId();
-        data.AddComment(userId, request.Request.Body);
+        data.RemoveComment(request.CommentId, userId);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
