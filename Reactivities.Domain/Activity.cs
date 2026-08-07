@@ -48,6 +48,7 @@ public class Activity : BaseDomainModel
 
     public List<ActivityAttendee> Attendees { get; set; } = [];
     public List<ActivityEvent> Events { get; set; } = [];
+    public List<ActivityComment> Comments { get; set; } = [];
 
     public void Cancel(string userId, string reason)
     {

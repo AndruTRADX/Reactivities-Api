@@ -1,8 +1,8 @@
 using Reactivities.Application.Models.Response.Profile;
 
-namespace Reactivities.Application.Models.Response.Attendees;
+namespace Reactivities.Application.Models.Response.ActivityAttendees;
 
-public class AttendeesResponse
+public class ActivityAttendeeResponse
 {
     public string Id { get; set; } = string.Empty;
     public string ActivityId { get; set; } = string.Empty;

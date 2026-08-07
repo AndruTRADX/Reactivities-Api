@@ -12,6 +12,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<ActivityAttendee> ActivityAttendees { get; set; }
     public DbSet<ActivityEvent> ActivityEvents { get; set; }
     public DbSet<Photo> Photos { get; set; }
+    public DbSet<ActivityComment> Comments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
