@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Reactivities.Application.Features.ActivityAttendees.Command.Create;
-using Reactivities.Application.Features.ActivityAttendees.Command.Delete;
+using Reactivities.Application.Features.ActivityAttendees.Commands.Create;
+using Reactivities.Application.Features.ActivityAttendees.Commands.Delete;
 using Reactivities.Application.Models.Response.Common;
 
 namespace Reactivities.API.Controllers;

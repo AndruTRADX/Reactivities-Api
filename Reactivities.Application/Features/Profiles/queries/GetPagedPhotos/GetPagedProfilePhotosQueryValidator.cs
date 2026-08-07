@@ -1,5 +1,5 @@
 using FluentValidation;
-using Reactivities.Application.Specification;
+using Reactivities.Application.Specifications;
 
 namespace Reactivities.Application.Features.Profiles.Queries.GetPagedPhotos;
 

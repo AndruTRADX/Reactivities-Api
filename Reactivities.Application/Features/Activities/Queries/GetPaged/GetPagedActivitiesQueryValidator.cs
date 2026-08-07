@@ -1,4 +1,4 @@
-using Reactivities.Application.Specification;
+using Reactivities.Application.Specifications;
 
 namespace Reactivities.Application.Features.Activities.Queries.GetPaged;
 

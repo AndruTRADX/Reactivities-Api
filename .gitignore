@@ -604,6 +604,7 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,aspnetcore,csharp,linux,windows,macos
 
 .claude
+CLAUDE.md
 
 Reactivities.API/appsettings.json
 Reactivities.API/appsettings.Development.json

@@ -1,7 +1,7 @@
 using MediatR;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Application.Models.Response.Photos;
-using Reactivities.Application.Specification.Photos;
+using Reactivities.Application.Specifications.Photos;
 
 namespace Reactivities.Application.Features.Profiles.Queries.GetPagedPhotos;
 

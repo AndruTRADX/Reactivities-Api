@@ -1,4 +1,4 @@
-using Reactivities.Application.Models.Response.Profile;
+using Reactivities.Application.Models.Response.Profiles;
 using Reactivities.Domain;
 
 namespace Reactivities.Application.Contracts.Identity;

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Reactivities.Application.Specification;
+namespace Reactivities.Application.Specifications;
 
 public abstract class SpecificationParamsValidator<T> : AbstractValidator<T> where T : SpecificationParams
 {

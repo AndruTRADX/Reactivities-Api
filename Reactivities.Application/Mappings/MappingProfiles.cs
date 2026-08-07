@@ -5,7 +5,7 @@ using Reactivities.Application.Models.Response.ActivityAttendees;
 using Reactivities.Application.Models.Response.ActivityComments;
 using Reactivities.Application.Models.Response.Identity;
 using Reactivities.Application.Models.Response.Photos;
-using Reactivities.Application.Models.Response.Profile;
+using Reactivities.Application.Models.Response.Profiles;
 using Reactivities.Domain;
 using Reactivities.Domain.Identity;
 

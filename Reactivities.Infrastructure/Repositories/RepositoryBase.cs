@@ -4,7 +4,7 @@ using Reactivities.Application.Contracts.Persistence;
 using Reactivities.Application.Contracts.Specifications;
 using Reactivities.Domain.Common;
 using Reactivities.Infrastructure.Persistence;
-using Reactivities.Infrastructure.Specification;
+using Reactivities.Infrastructure.Specifications;
 
 namespace Reactivities.Infrastructure.Repositories;
 

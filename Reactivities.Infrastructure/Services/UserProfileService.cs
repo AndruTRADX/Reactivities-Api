@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Reactivities.Application.Contracts.Identity;
 using Reactivities.Application.Contracts.Persistence;
 using Reactivities.Application.Exceptions;
-using Reactivities.Application.Models.Response.Profile;
+using Reactivities.Application.Models.Response.Profiles;
 using Reactivities.Domain;
 using Reactivities.Domain.Identity;
 

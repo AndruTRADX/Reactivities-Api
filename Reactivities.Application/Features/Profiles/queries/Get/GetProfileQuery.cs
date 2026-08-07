@@ -1,6 +1,6 @@
 using MediatR;
 using Reactivities.Application.Models.Response.Common;
-using Reactivities.Application.Models.Response.Profile;
+using Reactivities.Application.Models.Response.Profiles;
 
 namespace Reactivities.Application.Features.Profiles.Queries.Get;
 

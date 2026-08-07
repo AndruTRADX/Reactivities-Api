@@ -18,7 +18,7 @@ public class ActivitiesController : BaseApiController
     [HttpGet("{id}")]
     public async Task<ActionResult<ApiResponse<ActivityResponse>>> GetById(string id)
     {
-        return await mediator.Send(new GetActivitiesByIdQuery { Id = id });
+        return await mediator.Send(new GetActivityByIdQuery { Id = id });
     }
 
     [HttpGet]

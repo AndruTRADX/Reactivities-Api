@@ -1,7 +1,7 @@
 using MediatR;
 using Reactivities.Application.Contracts.Identity;
 using Reactivities.Application.Models.Response.Common;
-using Reactivities.Application.Models.Response.Profile;
+using Reactivities.Application.Models.Response.Profiles;
 
 namespace Reactivities.Application.Features.Profiles.Actions.Edit;
 
