@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reactivities.Domain;
 using Reactivities.Domain.Identity;
 
@@ -35,6 +36,22 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .WithMany(a => a.Photos)
             .HasForeignKey(au => au.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
+            v => v.ToUniversalTime(),
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+        );
+
+        foreach(var entityType in builder.Model.GetEntityTypes())
+        {
+            foreach (var property in entityType.GetProperties())
+            {
+                if (property.ClrType == typeof(DateTime))
+                {
+                    property.SetValueConverter(dateTimeConverter);
+                }
+            }
+        }
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
