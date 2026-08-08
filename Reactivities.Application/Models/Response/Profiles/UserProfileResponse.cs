@@ -6,4 +6,7 @@ public class UserProfileResponse
     public string DisplayName { get; set; } = string.Empty;
     public string? Biography { get; set; }
     public string? ImageUrl { get; set; }
+    public bool Following { get; set; }
+    public int FollowersCount { get; set; }
+    public int FollowingsCount { get; set; }
 }

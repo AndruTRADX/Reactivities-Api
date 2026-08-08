@@ -15,6 +15,8 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
+        string? currentUserId = null;
+
         CreateMap<CreateActivityRequest, Activity>();
         CreateMap<UpdateActivityRequest, Activity>();
 
@@ -23,7 +25,10 @@ public class MappingProfiles : Profile
             .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User));
 
         CreateMap<ApplicationUser, UserResponse>();
-        CreateMap<ApplicationUser, UserProfileResponse>();
+        CreateMap<ApplicationUser, UserProfileResponse>()
+            .ForMember(dest => dest.FollowersCount, opt => opt.MapFrom(src => src.Followers.Count))
+            .ForMember(dest => dest.FollowingsCount, opt => opt.MapFrom(src => src.Following.Count))
+            .ForMember(dest => dest.Following, opt => opt.MapFrom(src => src.Followers.Any(x => x.FollowerId == currentUserId)));
 
         CreateMap<ActivityComment, ActivityCommentResponse>()
             .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User));

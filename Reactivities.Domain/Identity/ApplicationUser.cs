@@ -17,6 +17,8 @@ public class ApplicationUser : IdentityUser
 
     public List<ActivityAttendee> Activities { get; set; } = [];
     public List<Photo> Photos { get; set; } = [];
+    public List<UserFollower> Followers { get; set; } = [];
+    public List<UserFollower> Following { get; set; } = [];
 
     public void EditProfile(string displayName, string? biography)
     {
@@ -63,5 +65,33 @@ public class ApplicationUser : IdentityUser
             throw new DomainException("This is already the main photo.");
 
         return photo;
+    }
+
+    public UserFollower Follow(ApplicationUser target)
+    {
+        if (target.Id == Id)
+            throw new DomainException("You cannot follow yourself.");
+
+        var alreadyFollowing = Following.Any(x => x.FolloweeId == target.Id);
+        if (alreadyFollowing)
+            throw new DomainException("You are already following this user.");
+
+        var follow = new UserFollower
+        {
+            FollowerId = Id,
+            FolloweeId = target.Id,
+        };
+
+        Following.Add(follow);
+
+        return follow;
+    }
+
+    public void Unfollow(ApplicationUser target)
+    {
+        var follow = Following.Find(x => x.FolloweeId == target.Id)
+            ?? throw new DomainException("You are not following this user.");
+
+        Following.Remove(follow);
     }
 }

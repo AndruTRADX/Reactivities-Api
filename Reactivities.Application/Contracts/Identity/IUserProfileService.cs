@@ -10,4 +10,6 @@ public interface IUserProfileService
     Task SetMainPhotoAsync(string userId, string photoId, CancellationToken cancellationToken);
     Task<UserProfileResponse> GetUserProfile(string userId);
     Task<UserProfileResponse> EditProfileAsync(string userId, string displayName, string? biography, CancellationToken cancellationToken);
+    Task FollowAsync(string userId, string targetUserId, CancellationToken cancellationToken);
+    Task UnfollowAsync(string userId, string targetUserId, CancellationToken cancellationToken);
 }

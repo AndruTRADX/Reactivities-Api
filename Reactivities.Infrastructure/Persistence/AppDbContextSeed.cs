@@ -13,18 +13,21 @@ public class AppDbContextSeed
         List<ApplicationUser> users = [
             new ()
             {
+                Id = "24ae7c66-c4ee-4029-8f47-4a5d128c9446",
                 DisplayName = "Bob",
                 UserName = "bob@test.com",
                 Email = "bob@test.com",
             },
             new ()
             {
+                Id = "8891ce51-5934-46fa-bb4f-d58b0f6bb8c9",
                 DisplayName = "Tom",
                 UserName = "tom@test.com",
                 Email = "tom@test.com",
             },
             new ()
             {
+                Id = "cb14e511-8ec7-437c-aa17-3be2e6b5e564",
                 DisplayName = "Jane",
                 UserName = "jane@test.com",
                 Email = "jane@test.com",

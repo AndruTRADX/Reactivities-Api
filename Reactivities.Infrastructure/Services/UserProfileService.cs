@@ -65,4 +65,30 @@ public class UserProfileService(UserManager<ApplicationUser> userManager, IUnitO
 
         return mapper.Map<UserProfileResponse>(user);
     }
+
+    public async Task FollowAsync(string userId, string targetUserId, CancellationToken cancellationToken)
+    {
+        var user = await userManager.Users.Include(u => u.Following).FirstOrDefaultAsync(x => x.Id == userId, cancellationToken: cancellationToken)
+            ?? throw new UnauthorizedException();
+
+        var target = await userManager.FindByIdAsync(targetUserId)
+            ?? throw new NotFoundException("UserProfile", targetUserId);
+
+        user.Follow(target);
+
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task UnfollowAsync(string userId, string targetUserId, CancellationToken cancellationToken)
+    {
+        var user = await userManager.Users.Include(u => u.Following).FirstOrDefaultAsync(x => x.Id == userId, cancellationToken: cancellationToken)
+            ?? throw new UnauthorizedException();
+
+        var target = await userManager.FindByIdAsync(targetUserId)
+            ?? throw new NotFoundException("UserProfile", targetUserId);
+
+        user.Unfollow(target);
+
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+    }
 }
