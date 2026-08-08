@@ -21,9 +21,6 @@ public class AddActivityCommentCommandHandler(IUnitOfWork unitOfWork, IUserAcces
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        // AddComment() only sets UserId on the new comment - the User navigation isn't
-        // fixed up automatically since the ApplicationUser was never loaded into this
-        // context. Re-fetch the saved comment with User included so the response has it.
         var savedComment = await unitOfWork.Repository<ActivityComment>().GetFirstAsync(predicate: x => x.Id == comment.Id, includeStrings: ["User"], enabledTracking: false)
             ?? throw new NotFoundException(nameof(ActivityComment), comment.Id);
 
