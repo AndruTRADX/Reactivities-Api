@@ -1,6 +1,8 @@
 using AutoMapper;
 using MediatR;
+using Reactivities.Application.Contracts.Identity;
 using Reactivities.Application.Contracts.Persistence;
+using Reactivities.Application.Mappings.Common;
 using Reactivities.Application.Models.Response.Activities;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Application.Specifications.Activities;
@@ -8,7 +10,7 @@ using Reactivities.Domain;
 
 namespace Reactivities.Application.Features.Activities.Queries.GetPaged;
 
-public class GetPagedActivitiesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<GetPagedActivitiesQuery, ApiResponse<PagedResponse<ActivityResponse>>>
+public class GetPagedActivitiesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserAccessor userAccessor) : IRequestHandler<GetPagedActivitiesQuery, ApiResponse<PagedResponse<ActivityResponse>>>
 {
     public async Task<ApiResponse<PagedResponse<ActivityResponse>>> Handle(GetPagedActivitiesQuery request, CancellationToken cancellationToken)
     {
@@ -21,6 +23,9 @@ public class GetPagedActivitiesQueryHandler(IUnitOfWork unitOfWork, IMapper mapp
         var totalPages = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(totalCount) / Convert.ToDecimal(request.PageSize)));
 
         var data = mapper.Map<IReadOnlyList<Activity>, IReadOnlyList<ActivityResponse>>(response);
+
+        var attendeeProfiles = data.SelectMany(a => a.Attendees).Select(a => a.User).ToList();
+        await FollowStatsEnricher.EnrichAsync(unitOfWork, attendeeProfiles, userAccessor.GetUserIdOrDefault(), cancellationToken);
 
         return new ApiResponse<PagedResponse<ActivityResponse>>(new()
         {

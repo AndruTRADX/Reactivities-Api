@@ -28,7 +28,8 @@ public class MappingProfiles : Profile
         CreateMap<ApplicationUser, UserProfileResponse>()
             .ForMember(dest => dest.FollowersCount, opt => opt.MapFrom(src => src.Followers.Count))
             .ForMember(dest => dest.FollowingsCount, opt => opt.MapFrom(src => src.Following.Count))
-            .ForMember(dest => dest.Following, opt => opt.MapFrom(src => src.Followers.Any(x => x.FollowerId == currentUserId)));
+            .ForMember(dest => dest.Following, opt => opt.MapFrom(src => src.Followers.Any(x => x.FollowerId == currentUserId)))
+            .ForMember(dest => dest.FollowedBy, opt => opt.MapFrom(src => src.Following.Any(x => x.FolloweeId == currentUserId)));
 
         CreateMap<ActivityComment, ActivityCommentResponse>()
             .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User));

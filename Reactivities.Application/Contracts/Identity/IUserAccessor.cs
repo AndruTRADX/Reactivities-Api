@@ -6,4 +6,5 @@ public interface IUserAccessor
 {
     Task<UserResponse?> GetCurrentUserAsync();
     string GetUserId();
+    string? GetUserIdOrDefault();
 }

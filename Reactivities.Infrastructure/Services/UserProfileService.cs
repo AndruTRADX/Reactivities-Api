@@ -1,4 +1,5 @@
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Reactivities.Application.Contracts.Identity;
@@ -46,12 +47,13 @@ public class UserProfileService(UserManager<ApplicationUser> userManager, IUnitO
         await unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<UserProfileResponse> GetUserProfile(string userId)
+    public async Task<UserProfileResponse> GetUserProfile(string userId, string? currentUserId, CancellationToken cancellationToken)
     {
-        var user = await userManager.FindByIdAsync(userId)
+        return await userManager.Users
+            .Where(u => u.Id == userId)
+            .ProjectTo<UserProfileResponse>(mapper.ConfigurationProvider, new { currentUserId })
+            .FirstOrDefaultAsync(cancellationToken)
             ?? throw new NotFoundException("UserProfile", userId);
-
-        return mapper.Map<UserProfileResponse>(user);
     }
 
     public async Task<UserProfileResponse> EditProfileAsync(string userId, string displayName, string? biography, CancellationToken cancellationToken)
@@ -63,7 +65,7 @@ public class UserProfileService(UserManager<ApplicationUser> userManager, IUnitO
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return mapper.Map<UserProfileResponse>(user);
+        return await GetUserProfile(userId, userId, cancellationToken);
     }
 
     public async Task FollowAsync(string userId, string targetUserId, CancellationToken cancellationToken)

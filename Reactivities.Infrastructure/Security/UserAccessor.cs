@@ -34,4 +34,9 @@ public class UserAccessor(UserManager<ApplicationUser> userManager, IHttpContext
         return httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier)
             ?? throw new UnauthorizedException();
     }
+
+    public string? GetUserIdOrDefault()
+    {
+        return httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+    }
 }

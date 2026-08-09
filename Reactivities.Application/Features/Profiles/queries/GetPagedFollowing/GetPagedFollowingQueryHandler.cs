@@ -1,6 +1,8 @@
 using AutoMapper;
 using MediatR;
+using Reactivities.Application.Contracts.Identity;
 using Reactivities.Application.Contracts.Persistence;
+using Reactivities.Application.Mappings.Common;
 using Reactivities.Application.Models.Response.Common;
 using Reactivities.Application.Models.Response.Profiles;
 using Reactivities.Application.Specifications.UserFollowers;
@@ -9,7 +11,7 @@ using Reactivities.Domain.Identity;
 
 namespace Reactivities.Application.Features.Profiles.Queries.GetPagedFollowing;
 
-public class GetPagedFollowingQueryHandler(IMapper mapper, IUnitOfWork unitOfWork) : IRequestHandler<GetPagedFollowingQuery, ApiResponse<PagedResponse<UserProfileResponse>>>
+public class GetPagedFollowingQueryHandler(IMapper mapper, IUnitOfWork unitOfWork, IUserAccessor userAccessor) : IRequestHandler<GetPagedFollowingQuery, ApiResponse<PagedResponse<UserProfileResponse>>>
 {
     public async Task<ApiResponse<PagedResponse<UserProfileResponse>>> Handle(GetPagedFollowingQuery request, CancellationToken cancellationToken)
     {
@@ -23,6 +25,8 @@ public class GetPagedFollowingQueryHandler(IMapper mapper, IUnitOfWork unitOfWor
 
         var following = response.Select(x => x.Followee).ToList();
         var data = mapper.Map<IReadOnlyList<ApplicationUser>, IReadOnlyList<UserProfileResponse>>(following);
+
+        await FollowStatsEnricher.EnrichAsync(unitOfWork, data, userAccessor.GetUserIdOrDefault(), cancellationToken);
 
         return new ApiResponse<PagedResponse<UserProfileResponse>>(new()
         {
