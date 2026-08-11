@@ -4,9 +4,11 @@ namespace Reactivities.Application.Specifications.Activities;
 
 public class ActivitySpecification : BaseSpecification<Activity>
 {
-    public ActivitySpecification(ActivitySpecificationParams specParams) : base(
+    public ActivitySpecification(ActivitySpecificationParams specParams, string? userId) : base(
         x =>
-            string.IsNullOrWhiteSpace(specParams.Search) || x.Title.Contains(specParams.Search)
+            (string.IsNullOrWhiteSpace(specParams.Search) || x.Title.Contains(specParams.Search))
+            && (!specParams.ImHosting || (!string.IsNullOrWhiteSpace(userId) && x.Attendees.Any(a => a.UserId == userId && a.IsHost)))
+            && (!specParams.ImGoing || (!string.IsNullOrWhiteSpace(userId) && x.Attendees.Any(a => a.UserId == userId)))
     )
     {
         ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);

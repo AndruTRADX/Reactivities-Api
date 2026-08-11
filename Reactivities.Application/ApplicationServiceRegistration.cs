@@ -3,7 +3,9 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Reactivities.Application.Behaviors;
+using Reactivities.Application.Contracts.Common;
 using Reactivities.Application.Mappings;
+using Reactivities.Application.Mappings.Common;
 namespace Reactivities.Application;
 
 public static class ApplicationServiceRegistration
@@ -18,6 +20,8 @@ public static class ApplicationServiceRegistration
         });
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviors<,>));
+
+        services.AddScoped<IFollowStatsEnricher, FollowStatsEnricher>();
 
         return services;
     }
