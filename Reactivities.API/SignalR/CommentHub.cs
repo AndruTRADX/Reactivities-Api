@@ -56,10 +56,6 @@ public class CommentHub(IMediator mediator, IHttpContextAccessor httpContextAcce
 
     private async Task<T> SendAndUnwrap<T>(IRequest<ApiResponse<T>> request)
     {
-        // IUserAccessor (used internally by the MediatR handlers, same as the REST path)
-        // reads httpContextAccessor.HttpContext?.User. That ambient AsyncLocal isn't
-        // guaranteed to be set for a hub method invocation, so re-prime it from the
-        // connection's own HttpContext before delegating to MediatR.
         httpContextAccessor.HttpContext = Context.GetHttpContext();
 
         try
