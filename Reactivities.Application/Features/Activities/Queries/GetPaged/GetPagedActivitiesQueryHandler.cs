@@ -18,7 +18,7 @@ public class GetPagedActivitiesQueryHandler(IUnitOfWork unitOfWork, IMapper mapp
         var spec = new ActivitySpecification(request, userId);
         var response = await unitOfWork.Repository<Activity>().GetAllWithSpec(spec);
 
-        var specCount = new ActivityCountSpecification(request);
+        var specCount = new ActivityCountSpecification(request, userId);
         var totalCount = await unitOfWork.Repository<Activity>().CountAsync(specCount);
 
         var totalPages = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(totalCount) / Convert.ToDecimal(request.PageSize)));
