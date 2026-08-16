@@ -57,12 +57,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 // Identity Api
 app.MapGroup("api").MapIdentityApi<ApplicationUser>();
 
 app.MapControllers();
 app.MapHub<CommentHub>("/hubs/comments");
+app.MapFallbackToController("Index", "Fallback");
 
 using (var scoped = app.Services.CreateScope())
 {
